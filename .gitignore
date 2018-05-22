@@ -1,35 +1,45 @@
-!Build/
-.last_cover_stats
-/META.yml
-/META.json
-/MYMETA.*
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
 *.o
-*.pm.tdy
-*.bs
+*.so
 
-# Devel::Cover
-cover_db/
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.tgz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
 
-# Devel::NYTProf
-nytprof.out
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
 
-# Dizt::Zilla
-/.build/
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
-# Module::Build
-_build/
-Build
-Build.bat
-
-# Module::Install
-inc/
-
-# ExtUtils::MakeMaker
-/blib/
-/_eumm/
-/*.gz
-/Makefile
-/Makefile.old
-/MANIFEST.bak
-/pm_to_blib
-/*.zip
+# Maintenance items  #
+######################
+*.bak
+*.old
+*.tmp
+*.log
