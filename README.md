@@ -12,7 +12,7 @@ Simple Front End Suite
  - make it all available to master or subaccount levels
  - integrate to SparkPost APIs for full automation
 
-## Disclainer
+## Disclaimer
 This is created as an **OPEN SOURCE** community project.  There is **NO support** and **NO guarantee for performance**.  If you like what you see, you are welcome to fork to your own project, observing the Apache license and providing credit where necessary. PRs are welcome as are any comments or suggestions. 
 
 ## Installation
