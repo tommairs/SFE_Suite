@@ -1,5 +1,6 @@
 # SFE_Suite
 Simple Front End Suite
+THIS IS A WORK IN PROGRESS AN IS NOT EVEN CLOSE TO READY YET... Come back later.
 
 
 ## Goals
