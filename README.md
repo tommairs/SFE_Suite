@@ -22,9 +22,10 @@ Some of these processes us BCC or redirects that can incur additional messaging 
 ## Installation
 The intention was to build this entirely in AWS so all the instructions are geared that way. If you build elsewhere, make the appropriate corrections.
 
-**First** deploy a suitable server location.  I used an m3.medium instance with 200Gb storage and CentOS 6.5 OS (ami-b6bdde86) for this. It will likley work exactly the same on CentoOS 7.x but I have not tried it yet.
+**First** deploy a suitable server location.  I used an m3.medium instance with 200Gb storage and CentOS 7.4 OS (ami-51076231) for this. 
 
-**Next**, build a LAMP-GNP stack out on it.  You may not need all the tools, but it is good to have them if you are developing additional features. I happen to have a handy script right here if you need one: https://github.com/tommairs/LAMP-GNP-Stack-Builder
+**Next**, build a LAMP-GNP stack out on it.  You may not need all the tools, but it is good to have them if you are developing additional features. I happen to have a handy script right here if you need one: https://github.com/tommairs/LAMP-GNP-Stack-Builder/blob/master/rh7-installer.sh
 
-**Finally** navigate to /var/www/html/ and init/pull this repo.
+**Finally** navigate to /var/www/html/ and init, then pull this repo.
+
 
