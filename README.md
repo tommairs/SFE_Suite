@@ -22,13 +22,13 @@ Some of these processes us BCC or redirects that can incur additional messaging 
 ## Installation
 The intention was to build this entirely in AWS so all the instructions are geared that way. If you build elsewhere, make the appropriate corrections.
 
-**1)** deploy a suitable server location.  I used an m3.medium instance with 200Gb storage and CentOS 7.4 OS (ami-51076231) for this. 
+1. deploy a suitable server location.  I used an m3.medium instance with 200Gb storage and CentOS 7.4 OS (ami-51076231) for this. 
+2. build a LAMP-GNP stack out on it.  You may not need all the tools, but it is good to have them if you are developing additional features. I happen to have a handy script right here if you need one: https://github.com/tommairs/LAMP-GNP-Stack-Builder/blob/master/rh7-installer.sh
+3. navigate to /var/www/html/ 
+4. create the application folder (mkdir sfesuite) 
+5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
 
-**2)**, build a LAMP-GNP stack out on it.  You may not need all the tools, but it is good to have them if you are developing additional features. I happen to have a handy script right here if you need one: https://github.com/tommairs/LAMP-GNP-Stack-Builder/blob/master/rh7-installer.sh
-
-**3)** navigate to /var/www/html/ and init, then pull this repo.
-
-**4** make the folowing modifications 
+make the folowing modifications 
  - 
  - 
  - 
