@@ -16,6 +16,9 @@ THIS IS A WORK IN PROGRESS AN IS NOT EVEN CLOSE TO READY YET... Come back later.
 ## Disclaimer
 This is created as an **OPEN SOURCE** community project.  There is **NO support** and **NO guarantee for performance**.  If you like what you see, you are welcome to fork to your own project, observing the Apache license and providing credit where necessary. PRs are welcome as are any comments or suggestions. 
 
+## Cost Factor Warning
+Some of these processes us BCC or redirects that can incur additional messaging costs with your email provider.
+
 ## Installation
 The intention was to build this entirely in AWS so all the instructions are geared that way. If you build elsewhere, make the appropriate corrections.
 
