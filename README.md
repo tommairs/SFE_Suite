@@ -34,6 +34,13 @@ The intention was to build this entirely in AWS so all the instructions are gear
 
 **5)** Build the installation
 
+  yum install -y ImageMagick
+  npm install
+  npm install -g grunt-cli
+  grunt
+
+
+
 
 **Finally** init 6 the server - there were many many changed made here so make sure it all comes back up as expected beforeusing it.
 
