@@ -25,15 +25,21 @@ The intention was to build this entirely in AWS so all the instructions are gear
 1. deploy a suitable server location.  I used an m3.medium instance with 200Gb storage and CentOS 7.4 OS (ami-51076231) for this. 
 2. build a LAMP-GNP stack out on it.  You may not need all the tools, but it is good to have them if you are developing additional features. I happen to have a handy script right here if you need one: https://github.com/tommairs/LAMP-GNP-Stack-Builder/blob/master/rh7-installer.sh
 3. navigate to /var/www/html/ 
-4. create the application folder (mkdir sfesuite) 
+4. create the application folder and cd to it ( mkdir sfesuite;cd sfesuite )
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
+6. execute SFEinstaller.sh as root
 
-make the folowing modifications 
- - 
- - 
+
  - 
 
 **5)** Build the installation
+
+   - yum install -y ImageMagick
+   - npm install
+   - npm install -g grunt-cli
+   - grunt
+
+
 
 
 **Finally** init 6 the server - there were many many changed made here so make sure it all comes back up as expected beforeusing it.
