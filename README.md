@@ -27,7 +27,9 @@ The intention was to build this entirely in AWS so all the instructions are gear
 3. navigate to /var/www/html/ 
 4. create the application folder and cd to it ( mkdir sfesuite;cd sfesuite )
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
-6. execute SFEinstaller.sh as root
+6. execute SFEinstaller.sh as root (sudo -s;sh SFEinstaller.sh )
+7. when you see Grunt "waiting...." you can CTRL-C to end the script
+
 
 
  - 
