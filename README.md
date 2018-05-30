@@ -17,9 +17,9 @@ THIS IS A WORK IN PROGRESS AN IS NOT EVEN CLOSE TO READY YET... Come back later.
 This is created as an **OPEN SOURCE** community project.  There is **NO support** and **NO guarantee for performance**.  If you like what you see, you are welcome to fork to your own project, observing the Apache license and providing credit where necessary. PRs are welcome as are any comments or suggestions. 
 
 ## Credits and other redirects
-**Mosaico** - This project is based on a **HEAVILY** modified verson of Mosaico.  You can find the original source [here] (https://github.com/voidlabs/mosaico). There were far to many mods to simply pull and update the original so a modified version of release 0.17.3 is included in this repo. Many thanks to [@bago](https://github.com/bago) for his work on this project.  His original GNU Licnese is included in the repo.
+**Mosaico** - This project is based on a **HEAVILY** modified verson of Mosaico.  You can find the original source [here] (https://github.com/voidlabs/mosaico). There were far to many mods to simply pull and update the original so a modified version of release 0.17.3 is included in this repo. Many thanks to [@bago](https://github.com/bago) for his work on this project.  His original GNU License is included in the repo.
 
-**markalston** - This project also includes a modified version of [markalston]'s (https://github.com/markalston) [Mosaico-PHP-Backend] (https://github.com/markalston/mosaico-php-backend). His original GNU Licnese is included in the repo.
+**markalston** - This project also includes a modified version of [markalston]'s (https://github.com/markalston) [Mosaico-PHP-Backend] (https://github.com/markalston/mosaico-php-backend). His original GNU License is included in the repo.
 
 
 ## Cost Factor Warning
