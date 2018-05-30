@@ -180,6 +180,11 @@ module.exports = function(grunt) {
         dest: 'dist/'
       },
 
+      templates: {
+        src: 'templates',
+        dest: 'dist/templates'
+      },
+
       htmls: {
         expand: true,
         cwd: 'src/html',
@@ -327,7 +332,7 @@ module.exports = function(grunt) {
         },
         files: [
           { expand: true, cwd: 'dist', src: ['**'], dest: '/' },
-          { src: ['templates/versafix-1/**', 'README.md', 'NOTICE.txt', 'LICENSE'], dest: '/' }
+          { src: ['templates/versafix-1/**', 'README.md', 'NOTICE.txt', 'LICENSE'], dest: '/dest/templates/' }
         ]
       }
     },
@@ -351,7 +356,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('js', ['combineKOTemplates', 'browserify', 'exorcise']);
   grunt.registerTask('css', ['less', 'postcss']);
-  grunt.registerTask('server', ['express', 'watch', 'keepalive']);
+  //grunt.registerTask('server', ['express', 'watch', 'keepalive']);
+  grunt.registerTask('server', ['express']);
   grunt.registerTask('deps', ['copy', 'uglify', 'cssmin']);
   grunt.registerTask('build', ['googlefonts', 'deps', 'jshint', 'js', 'css']);
   grunt.registerTask('default', ['build', 'server']);

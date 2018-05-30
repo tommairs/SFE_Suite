@@ -34,7 +34,7 @@ if ( array_key_exists( "path", $url ) )
 
 	$request = substr( $url[ "path" ], strlen( dirname( $url[ "path" ] ) ) );
 	
-	//die( "<pre>" . print_r( $request, true ) . "</pre>" );
+	  //die( "<pre>" . print_r( $request, true ) . "</pre>" );
 	
 	$request_handlers = [
 		"upload/" => "ProcessUploadRequest",

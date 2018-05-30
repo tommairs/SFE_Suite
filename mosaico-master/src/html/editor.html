@@ -24,6 +24,9 @@ $(function() {
   var plugins;
   // A basic plugin that expose the "viewModel" object as a global variable.
   // plugins = [function(vm) {window.viewModel = vm;}];
+
+  var basePath = '';
+
   var ok = Mosaico.init({
     imgProcessorBackend: basePath+'/img/',
     emailProcessorBackend: basePath+'/dl/',
@@ -33,6 +36,8 @@ $(function() {
       // messages??
     }
   }, plugins);
+
+
   if (!ok) {
     console.log("Missing initialization hash, redirecting to main entrypoint");
     document.location = ".";

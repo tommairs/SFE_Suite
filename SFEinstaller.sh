@@ -19,14 +19,19 @@ echo "
     ErrorLog logs/$YOURDOMAINURL-error_log
     CustomLog logs/$YOURDOMAINURL-access_log common
 
-Alias /mosaico/ "/var/www/mosaico-master/dist/"
+Alias /mosaico/ /var/www/mosaico-master/dist/
+Alias /dl/ /var/www/mosaico-master/backend-php/
+Alias /img/ /var/www/mosaico-master/backend-php/
+Alias /upload/ /var/www/mosaico-master/backend-php/
+Alias /templates/ /var/www/mosaico-master/templates/
 
-<Directory "/var/www/mosaico-master">
+<Directory /var/www/mosaico-master>
     Options Indexes MultiViews FollowSymLinks
-    AllowOverride None
+    AllowOverride All
     Order allow,deny
     Allow from all
 </Directory>
+
 
 </VirtualHost>
 " > /etc/httpd/conf.d/sfesuite.conf
@@ -34,16 +39,16 @@ Alias /mosaico/ "/var/www/mosaico-master/dist/"
 /bin/systemctl reload httpd.service
 
 mv mosaico-master /var/www/
-mv mosaico-php-backend-master /var/www/
 
 cd /var/www/mosaico-master/
+yum install -y ImageMagick
 npm install
+npm audit fix
+npm i -g npm
 npm install -g grunt-cli
 grunt
 
-mv -rf ../mosaico-php-backend-master/* .
-
-mv templates/ ./dist/
+cp templates/ dist/ -rf
 
 
 ## END ##

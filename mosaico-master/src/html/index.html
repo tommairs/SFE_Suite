@@ -158,6 +158,7 @@ a, a:link, a:visited {
     <table class="logoWrapper" valign="bottom" align="center"><tr><td valign="bottom">
 
 <h1>Template Navigator </h1>
+<br><a href="/">Top Menu</a>
 
 <!--
 <img class="logoImage" alt="Mosaico" style="display: block;" src="rs/img/mosaicologo.png" />
@@ -194,8 +195,8 @@ a, a:link, a:visited {
     <div data-bind="foreach: templates">
       <div class="template template-xx" style="" data-bind="attr: { class: 'template template-'+name }">
         <div class="description" style="padding-bottom:5px"><b data-bind="text: name">xx</b>: <span data-bind="text: desc">xx</span></div>
-        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor.html?__VERSION__#templates/'+name+'/template-'+name+'.html' }">
-          <img src width="100%" alt="xx" data-bind="attr: { src: '/mosaico/templates/'+name+'/edres/_full.png' }">
+        <a href="#" data-bind="click: $root.newEdit.bind(undefined, name), attr: { href: 'editor.html?__VERSION__#/templates/'+name+'/template-'+name+'.html' }">
+          <img src width="100%" alt="xx" data-bind="attr: { src: '/templates/'+name+'/edres/_full.png' }">
         </a>
       </div>
     </div>
