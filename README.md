@@ -23,7 +23,7 @@ This is created as an **OPEN SOURCE** community project.  There is **NO support*
 
 
 ## Cost Factor Warning
-Some of these processes us BCC or redirects that can incur additional messaging costs with your email provider.
+Some of these processes use BCC or redirects that can incur additional messaging costs with your email provider. PLEASE be aware of the per transaction costs of yuor provider.
 
 ## Installation
 The intention was to build this entirely in AWS so all the instructions are geared that way. If you build elsewhere, make the appropriate corrections.
@@ -35,5 +35,11 @@ The intention was to build this entirely in AWS so all the instructions are gear
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
 6. execute SFEinstaller.sh as root (sudo sh SFEinstaller.sh )
 7. navigate a browser to your host url and start [using it](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
+
+## Usage
+For usage instructions please refer to [USAGE.md](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
+
+## Contributing
+For information on adding contributions, quesitons, suggestions, support, pull requests, etc, please see [CONTRIBUTING.mg](https://github.com/tommairs/SFE_Suite/blob/master/CONTRIBUTING.md)
 
 
