@@ -33,5 +33,7 @@ The intention was to build this entirely in AWS so all the instructions are gear
 3. navigate to /var/www/html/ 
 4. create the application folder and cd to it ( mkdir sfesuite;cd sfesuite )
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
-6. execute SFEinstaller.sh as root (sudo -s;sh SFEinstaller.sh )
+6. execute SFEinstaller.sh as root (sudo sh SFEinstaller.sh )
+7. navigate a browser to your host url and start [using it](https://github.com/tommairs/SFE_Suite/edit/master/USAGE.md)
+
 
