@@ -1,65 +1,66 @@
 <?php
 
 
-if ($_SERVER['REFERRER'] != ""){
-  echo "This must ve run from CLI";
+if ($_SERVER['REQUEST_METHOD'] != ""){
+  echo "This script must be run from the CLI";
   exit;
 }
 
    include ("env.ini");
-   $firstpass = $_POST['first'];
-   $a_user =  $_POST['user'];
-   $a_pass =  $_POST['pass'];
-   
-   if ($_SERVER['SERVER_PORT'] != "443"){
-     echo "Please use HTTPS";
-     exit;
-   }
-
-   if ($firstpass != "false"){
-   echo "
-    <html><body>
-    <p>
-      This is the initialization script.  Running this will wipe and replace the database configured in <i>env.ini</i>.<br />
-      Please set the desired database name, username, and password in the <i>env.ini</i> file BEFORE running this script.<br />
-      \$LNHome = \"https://10.79.0.15/licenseninja-dev/\";  // This is the installed location of the web service  <br />
-      \$TZ = 'America/Los_Angeles'; //This is the Linux standard region format<br />
-      \$dbhost = 'localhost'; // should be left as \"localhost\"<br />
-      \$dbuser = 'licenseman-dev';  // The desired DB username<br />
-      \$dbpass = 'mydevpassword';  // The desired DB Password<br />
-      \$dbname = 'LicenseNinja-dev';  // The desired DB Name<br />
-      \$p_email = \"LicenseNinjaDEV@messagesystems.com\";  // The email address used for panic mode license generation<br />
-      \$p_passwd = \"MyPrivatePassword\";  // The password for panic mode license generation<br />
-      <br />
-      If the above is set, continue below:<br />
-      <br />
-      <form name=\"dbinit\" method=\"POST\" action=\"#\">
-      <table>
-       <tr>
-        <td>Root or authorized username for MySQL administration<br /> (must have GRANT priv):</td>
-        <td><input type=\"text\" name=\"user\"></td>
-       </tr>
-       <tr>
-        <td>Root or authorized user password for MySQL administration<br /> (will not be saved):</td>
-        <td><input type=\"password\" name=\"pass\"><input type=\"hidden\" name=\"first\" value=\"false\"></td>
-       </tr>
-       <tr>
-        <td><input type=\"submit\" value=\"Create DB\"></td>
-        <td>&nbsp;</td>
-       </tr>
-     </table>
-     </form>
-
-   ";
+   system('clear');
+   echo"
 
 
-   }
-   else{
+      This is the DB initialization script.  Running this will wipe and replace the database configured in [env.ini].
+      Please set the desired database name, username, and password in the [env.ini] file BEFORE running this script.
+
+      \$LNHome = \"https://10.79.0.15/myserver-dev/\";  // This is the installed location of the web service  
+      \$TZ = 'America/Los_Angeles'; //This is the Linux standard region format
+      \$dbhost = 'localhost'; // should be left as \"localhost\"
+      \$dbuser = 'mydevuser';  // The desired DB username
+      \$dbpass = 'mydevpassword';  // The desired DB Password
+      \$dbname = 'db-dev';  // The desired DB Name
+
+      If the above are NOT set, you will be prompted for them below.
+      prese CTRL-C to quit. 
+
+  ";
+      echo "Root or authorized username for MySQL administration (must have GRANT priv):";
+      $user = readline();
+
+      echo "Root or authorized user password for MySQL administration (will not be saved):";
+      $pass = readline();
+
+        $LNHome = readline("Base URL of web service (Currently = '$LNHome'):");
+        $TZ = readline("TimeZone (Currently = '$TZ') :");
+        $dbhost = readline("Database hostname (Currently = '$dbhost') :");
+        $dbname = readline("Database Name (Currently = '$dbname') :");
+        $dbuser = readline("Database User (Currently = '$dbuser') :");
+        $dbpass = readline("Database Password (Currently = '$dbpass') :");
+
+echo "I'll use these settings.:
+  ROOT user = $user
+  ROOT pass = <REDACTED>
+  URL HOME = $LNHome
+  Time Zone = $TZ
+  DB Host = $dbhost
+  DB User = $dbuser
+  DB Password = <REDACTED>
+  DB Name = $dbname
+";
+
+echo "If the above settings are ok, press ENTER/RETURN.  If not press CTRL-C";
+        $A = readline();
+
+
+
+
+exit;
+
+// FIXME
  
    echo "
-    <html><body>
-    <p>
-     Creating Database ".$dbname." as user ".$a_user." <br />";
+     Creating Database ".$dbname." as user ".$user." ";
 
     $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8');
     try
@@ -79,14 +80,14 @@ if ($_SERVER['REFERRER'] != ""){
      $query = "CREATE database ".$dbname."";
      $query_params = array(':DB' => $dbname);
 
-echo "<font color=red>". $query ."</font><br>\r\n";
+echo "<font color=red>". $query ."</font><br>";
 
         try
         {
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
 
         }
 
@@ -98,7 +99,7 @@ echo "<font color=red>". $query ."</font><br>\r\n";
         }
 
 
-     echo "Creating ".$dbname.".Issuers Table <br />";
+     echo "Creating ".$dbname.".Issuers Table ";
 $query = "CREATE TABLE ".$dbname.".Issuers ( 
 id INT NOT NULL AUTO_INCREMENT,
 FullName VARCHAR(50) NOT NULL ,
@@ -107,14 +108,14 @@ Authorized INT NOT NULL DEFAULT 1  ,
 PRIMARY KEY (id)
 ) ENGINE=INNODB";
 
-echo "<font color=red>". $query ."</font><br>\r\n";
+echo "<font color=red>". $query ."</font><br>";
 
         try
         {
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
         }
 
         catch(PDOException $ex)
@@ -144,7 +145,7 @@ $query = "INSERT INTO " . $dbname . ".Issuers (FullName,Email,Authorized) VALUES
 
 
 
-     echo "Creating Customer Details Table <br />";
+     echo "Creating Customer Details Table ";
  
 $query = "CREATE TABLE ".$dbname.".CustomerTemplate ( 
 id INT NOT NULL AUTO_INCREMENT,
@@ -194,7 +195,7 @@ Notes VARCHAR(1024)   ,
 PRIMARY KEY (id)
 ) ENGINE=INNODB";
 
-echo "<font color=red>". $query ."</font><br>\r\n";
+echo "<font color=red>". $query ."</font><br>";
 
 
         try
@@ -202,7 +203,7 @@ echo "<font color=red>". $query ."</font><br>\r\n";
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
         }
 
         catch(PDOException $ex)
@@ -213,7 +214,7 @@ echo "<font color=red>". $query ."</font><br>\r\n";
         }
 
 
-    echo " Creating History Table <br />";
+    echo " Creating History Table ";
 
 $query = "CREATE TABLE ".$dbname.".History ( 
 id INT NOT NULL AUTO_INCREMENT,
@@ -257,14 +258,14 @@ PRIMARY KEY (id)
 ) ENGINE=INNODB";
 
 
-echo "<font color=red>". $query ."</font><br>\r\n";
+echo "<font color=red>". $query ."</font><br>";
 
         try
         {
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
         }
 
         catch(PDOException $ex)
@@ -275,7 +276,7 @@ echo "<font color=red>". $query ."</font><br>\r\n";
         }
 
  
-     echo "Creating User <br />";
+     echo "Creating User ";
      $query = "CREATE USER :US@'localhost' IDENTIFIED BY :PA";
      $query_params = array(':US' => $dbuser, ':PA' => $dbpass);
         try
@@ -283,7 +284,7 @@ echo "<font color=red>". $query ."</font><br>\r\n";
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
         }
 
         catch(PDOException $ex)
@@ -293,17 +294,17 @@ echo "<font color=red>". $query ."</font><br>\r\n";
            die("Failed to create User: " . $ex->getMessage());
         }
 
-     echo "Creating Grant <br />";
+     echo "Creating Grant ";
      $query = "GRANT ALL PRIVILEGES ON *.* TO '".$dbuser."'@'localhost'";
      $query_params = array(':DB => $dbname, :US' => $dbuser, ':HO' => $dbhost);
-echo "<font color=red>". $query ."</font><br>\r\n";
+echo "<font color=red>". $query ."</font><br>";
 
         try
         {
             $stmt = $db->prepare($query);
             $result = $stmt->execute($query_params);
           if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>\r\n";
+    echo "<font color=green>". $result_en ."</font><br>";
         }
 
         catch(PDOException $ex)
@@ -330,9 +331,8 @@ echo "<font color=red>". $query ."</font><br>\r\n";
         }
 
 
-     echo "Initialization complete.  If there are no errors above, click <a href=\"".$LNHome."\">HERE</a> to continue: <br />";
+     echo "Initialization complete.  If there are no errors above, click <a href=\"".$LNHome."\">HERE</a> to continue: ";
 
-}
 
 
 
