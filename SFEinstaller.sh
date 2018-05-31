@@ -41,11 +41,17 @@ Alias /templates/ /var/www/mosaico-master/templates/
 mv mosaico-master /var/www/
 
 cd /var/www/mosaico-master/
-yum install -y ImageMagick
+yum -y install ImageMagick ImageMagick-devel
+yum -y install gcc php70w-devel php70w-pear
+pecl install imagick
+echo "extension=imagick.so" > /etc/php.d/imagick.ini
+service httpd reload
+
 npm install
-npm audit fix
 npm i -g npm
 npm install -g grunt-cli
+npm install mysql -save
+npm audit fix
 grunt
 
 cp templates/ dist/ -rf
