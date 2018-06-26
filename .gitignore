@@ -46,4 +46,5 @@ Thumbs.db
 
 # Config and Environment files #
 ################################
-*.ini
+# SMT 2018-06-26 modified as the infilter/suite.ini file is OK to put in the repo
+./*.ini
