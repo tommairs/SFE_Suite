@@ -67,8 +67,23 @@ if($content_type != "application/json") {
     echo "Header Content-Type must be application/json";
     exit(1);
 }
-$headers = apache_request_headers();
-$ir = json_decode(file_get_contents('php://input'));
+if(array_key_exists("Authorization", $avParams)) {
+    // config expects an auth header in inbound relay webhook - ensure it's set up the same in SparkPost
+    $headers = apache_request_headers();
+    if(!array_key_exists("Authorization", $headers)) {
+        http_response_code(501);
+        echo "Authorization header is required";
+        exit(1);
+    } else {
+        if($headers["Authorization"] != $avParams["Authorization"]) {
+            http_response_code(501);
+            echo "Authorization header mismatch";
+            exit(1);
+        }
+    }
+}
+$rawBody = file_get_contents('php://input');
+$ir = json_decode($rawBody);
 if(!$ir) {
     http_response_code(501);
     echo "Content body must be valid JSON format";
@@ -83,7 +98,8 @@ foreach ($ir as $e) {
         echo "Content body must be valid JSON []msys.relay_message format";
         exit(1);
     }
-    $msg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . uniqid() . $avParams["file_extension"];
+    $uniq = uniqid();
+    $msg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . $avParams["file_extension"];
     $msg_fh = fopen($msg_filename, "w");
     if (!$msg_fh) {
         http_response_code(501);
@@ -114,6 +130,29 @@ foreach ($ir as $e) {
         echo "Server problem - msg write 3";
         exit(1);
     }
+    // now check if we are also writing debug JSON files
+    if(array_key_exists("debug_json", $avParams) && $avParams["debug_json"] == true) {
+        $dbg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . ".json";
+        $dbg_fh = fopen($dbg_filename, "w");
+        if (!$dbg_fh) {
+            http_response_code(501);
+            echo "Server problem - json write 1";
+            exit(1);
+        }
+        $ok = fwrite($dbg_fh, $rawBody);
+        if(!$ok) {
+            http_response_code(501);
+            echo "Server problem - json write 2";
+            exit(1);
+        }
+        $ok = fclose($dbg_fh);
+        if(!$ok) {
+            http_response_code(501);
+            echo "Server problem - json write 3";
+            exit(1);
+        }
+
+}
     $msg_count++;
     // Successfully wrote one message
 }
