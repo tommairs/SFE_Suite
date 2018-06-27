@@ -67,95 +67,45 @@ if($content_type != "application/json") {
     echo "Header Content-Type must be application/json";
     exit(1);
 }
+// check authorization, if present
 if(array_key_exists("Authorization", $avParams)) {
     // config expects an auth header in inbound relay webhook - ensure it's set up the same in SparkPost
     $headers = apache_request_headers();
     if(!array_key_exists("Authorization", $headers)) {
+        echo "Authorization header is missing";
         http_response_code(501);
-        echo "Authorization header is required";
         exit(1);
     } else {
         if($headers["Authorization"] != $avParams["Authorization"]) {
-            http_response_code(501);
             echo "Authorization header mismatch";
+            http_response_code(501);
             exit(1);
         }
     }
 }
+
 $rawBody = file_get_contents('php://input');
-$ir = json_decode($rawBody);
-if(!$ir) {
+$uniq = uniqid();
+// write as JSON files. Then we have all metadata and can forward the whole JSON blob easily from the batch process
+$dbg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . ".json";
+$dbg_fh = fopen($dbg_filename, "w");
+if (!$dbg_fh) {
     http_response_code(501);
-    echo "Content body must be valid JSON format";
+    echo "Server problem - json write 1";
     exit(1);
 }
-// $ir is object decoded from valid JSON
-$msg_count = 0;
-foreach ($ir as $e) {
-    $msg = $e->msys->relay_message;
-    if (!$msg) {
-        http_response_code(501);
-        echo "Content body must be valid JSON []msys.relay_message format";
-        exit(1);
-    }
-    $uniq = uniqid();
-    $msg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . $avParams["file_extension"];
-    $msg_fh = fopen($msg_filename, "w");
-    if (!$msg_fh) {
-        http_response_code(501);
-        echo "Server problem - msg write 1";
-        exit(1);
-    }
-    // Get the mail payload
-    $email_content = $msg->content->email_rfc822;
-    if (!$email_content) {
-        http_response_code(501);
-        echo "Content body must contain []msys.relay_message.content.email_rfc822";
-        exit(1);
-    }
-    if ($msg->content->email_rfc822_is_base64) {
-        $email_content = base64_decode($email_content);               //TODO: create test case for this
-    }
-    // Now have a valid RFC822 message body, which can be written to our spool folder
-    // Build a filename from the webhook_id and the message index (which will usually be zero, because one msg per hook)
-    $ok = fwrite($msg_fh, $email_content);
-    if(!$ok) {
-        http_response_code(501);
-        echo "Server problem - msg write 2";
-        exit(1);
-    }
-    $ok = fclose($msg_fh);
-    if(!$ok) {
-        http_response_code(501);
-        echo "Server problem - msg write 3";
-        exit(1);
-    }
-    // now check if we are also writing debug JSON files
-    if(array_key_exists("debug_json", $avParams) && $avParams["debug_json"] == true) {
-        $dbg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . ".json";
-        $dbg_fh = fopen($dbg_filename, "w");
-        if (!$dbg_fh) {
-            http_response_code(501);
-            echo "Server problem - json write 1";
-            exit(1);
-        }
-        $ok = fwrite($dbg_fh, $rawBody);
-        if(!$ok) {
-            http_response_code(501);
-            echo "Server problem - json write 2";
-            exit(1);
-        }
-        $ok = fclose($dbg_fh);
-        if(!$ok) {
-            http_response_code(501);
-            echo "Server problem - json write 3";
-            exit(1);
-        }
-
+$ok = fwrite($dbg_fh, $rawBody);
+if(!$ok) {
+    http_response_code(501);
+    echo "Server problem - json write 2";
+    exit(1);
 }
-    $msg_count++;
-    // Successfully wrote one message
+$ok = fclose($dbg_fh);
+if(!$ok) {
+    http_response_code(501);
+    echo "Server problem - json write 3";
+    exit(1);
 }
+// committed the JSON blob to file, done for now
 http_response_code(200);
-echo "ir_hook: received messages: " . strval($msg_count);
-// Log a received mail event
+echo "ir_hook: received a webhook push";

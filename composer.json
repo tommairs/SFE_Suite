@@ -1,0 +1,7 @@
+{
+    "require": {
+        "php-mime-mail-parser/php-mime-mail-parser": "^2.11",
+        "guzzlehttp/guzzle": "^6.3",
+        "katzgrau/klogger": "dev-master"
+    }
+}
