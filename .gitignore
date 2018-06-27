@@ -48,4 +48,13 @@ Thumbs.db
 ################################
 # SMT 2018-06-26 modified as the infilter/suite.ini file is OK to put in the repo
 ./*.ini
-./.idea/*
+.idea/SFE_Suite.iml
+.idea/deployment.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/workspace.xml
+composer.phar
+infilter/samples/
+infilter/spool/
+vendor/
