@@ -5,6 +5,8 @@
  * Steve Tuck, SparkPost - June 2018
  */
 
+require_once '../vendor/autoload.php';
+
 // List mandatory .ini sections here
 const mandatory = ["SparkPost", "infilter"];
 
@@ -24,4 +26,22 @@ function getParams($iniFile)
         }
     }
     return $paramArray;
+}
+
+class App_log
+{
+    private $logger;
+
+    // default to current directory if not set
+    public function __construct($logdir = __DIR__)
+    {
+        $this->logger = new Katzgrau\KLogger\Logger($logdir);
+    }
+
+    // multipurpose method supporting all underlying logger methods
+    public function __call($name, $arguments)
+    {
+        return $this->logger->$name($arguments);
+    }
+
 }

@@ -56,5 +56,5 @@ Thumbs.db
 .idea/workspace.xml
 composer.phar
 infilter/samples/
-infilter/spool/
+infilter/spool/*.json
 vendor/
