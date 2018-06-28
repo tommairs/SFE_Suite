@@ -21,7 +21,6 @@ php -r "unlink('composer-setup.php');"
 
 # This may need to be run as root because of the way the overall project is installed as root
 php composer.phar install
-mkdir infilter
 cd infilter
 mkdir spool
 chown apache:apache spool
