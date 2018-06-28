@@ -50,4 +50,4 @@ mkdir app_logs
 chown apache:apache app_logs
 chmod 755 app_logs
 
-echo "*** Now set up your specific config items in infilter/suite.ini, such as SparkPost API key etc"
+echo "*** Now set up your specific config items in infilter/suite.ini.example, such as SparkPost API key etc"

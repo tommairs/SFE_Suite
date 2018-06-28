@@ -1,0 +1,33 @@
+[SparkPost]
+sparkpost_api_key = <<YOUR API KEY HERE>>
+sparkpost_host = https://api.sparkpost.com
+
+[infilter]
+max_attachment_size = 4194304
+; reject inbound mail containing any single attachment exceeding this size (bytes), without scanning. Set 0 for unlimited
+
+; infilter will attempt to connect to clamd via the following Unix sockets file (match setting in clamd.conf)
+LocalSocket = /tmp/clamd.socket
+
+; if set, then incoming webhook X-MessageSystems-Webhook-Token: header must exist and must match the following
+Token = f00dbeef
+
+; infilter inbound relay webhook receiver will spool JSON blobs into dir's under this directory
+workdir = spool
+; after processing, JSON files will be moved here
+donedir = spool/done
+
+; Mail files will be sent here
+maildir = spool/eml
+
+; control whether replies sent back to the original sender
+replies_enabled = true
+sp_accept_template = accept-inbound
+sp_reject_template = reject-inbound
+
+; onward delivery via http(s)
+delivery_url = https://my-runscope.herokuapp.com/1351jc81
+delivery_method = POST
+
+; application-level logging.  For the clamd scanning logs see clamconf | grep LogFile
+logdir = app_logs

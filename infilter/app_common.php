@@ -3,6 +3,10 @@
  * Common .ini file parsing routine
  *
  * Steve Tuck, SparkPost - June 2018
+ *
+ * External dependencies:
+ *  https://github.com/katzgrau/KLogger
+ *      use Composer command shown on ths page
  */
 
 require_once '../vendor/autoload.php';
@@ -30,18 +34,34 @@ function getParams($iniFile)
 
 class App_log
 {
-    private $logger;
+    private $logger, $progname;
 
     // default to current directory if not set
-    public function __construct($logdir = __DIR__)
+    public function __construct($logdir = __DIR__, $progname)
     {
-        $this->logger = new Katzgrau\KLogger\Logger($logdir);
+        $this->logger = new Katzgrau\KLogger\Logger($logdir, Psr\Log\LogLevel::DEBUG,
+            array("logFormat" => "{date}|" . $progname . "|{level}|{message}") );
+        $this->progname = $progname;
     }
 
-    // multipurpose method supporting all underlying logger methods
-    public function __call($name, $arguments)
+    // pass thru some basic methods
+    public function info($arg)
     {
-        return $this->logger->$name($arguments);
+        return $this->logger->info($arg);
     }
 
+    public function warning($arg)
+    {
+        return $this->logger->warning($arg);
+    }
+
+    public function error($arg)
+    {
+        return $this->logger->error($arg);
+    }
+
+    public function debug($arg)
+    {
+        return $this->logger->debug($arg);
+    }
 }

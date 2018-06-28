@@ -4,9 +4,6 @@
  *
  * Steve Tuck, SparkPost - June 2018
  *
- *  External dependencies:
- *      https://github.com/katzgrau/KLogger
- *          use Composer command shown on ths page
  */
 
 require_once '../vendor/autoload.php';
@@ -22,9 +19,10 @@ require_once "app_common.php";
 // Below, we spool each inbound message to an RFC822-compliant .eml file ready for further batch processing.
 
 
-$p = getParams("suite.ini");
+$p = getParams("suite.ini.example");
 $avParams = $p["infilter"];
-$app_log = new App_log($avParams["logdir"]);                // Get logging set up early on, for error reporting etc
+// Get logging set up early on, for error reporting etc
+$app_log = new App_log($avParams["logdir"], basename(__FILE__));
 
 // Check working message directory set up and accessible
 if(!array_key_exists("workdir", $avParams)) {
@@ -37,13 +35,13 @@ if(!$wd) {
     // don't allow empty string, as later, realpath would default to current directory: see
     // http://php.net/manual/en/function.realpath.php
     http_response_code(501);
-    $app_log->info("Server problem workdir 2");
+    $app_log->info("Error: workdir set as blank string in .ini file");
     exit(1);
 }
 $workdir_path = realpath($wd);
 if(!$workdir_path) {
     http_response_code(501);
-    $app_log->info("Server problem workdir 3");
+    $app_log->info("Error: workdir path invalid: " . $wd);
     exit(1);
 }
 if(!is_writable($workdir_path)) {
