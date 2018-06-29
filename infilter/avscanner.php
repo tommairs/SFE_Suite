@@ -117,7 +117,7 @@ function chk_config($avParams, $k, $mode)
 }
 
 // helper to send replies back via SparkPost using specified template
-function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template, $recip)
+function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template, $recip, $global_sub_data)
 {
     global $app_log;
     $client = new \GuzzleHttp\Client(["http_errors" => false]);
@@ -129,7 +129,8 @@ function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template,
     ];
     $tx_body = ["campaign_id" => "avscanner autoreply",
         "recipients" => [ [ "address" => $recip ] ],            // This has to be a list of addresses
-        "content" => [ "template_id" => $template ]
+        "content" => [ "template_id" => $template ],
+        "substitution_data" => $global_sub_data,
     ];
     $res = $client->request("POST", $req_uri, ["json" => $tx_body, "headers" => $req_hdrs, "timeout" => 30]);
     if($res->getStatusCode() != 200) {
@@ -233,9 +234,10 @@ foreach($file_list as $jfile) {
                 ;
                 $contentLength = strlen($a->getContent());
                 // PHP strings are binary-safe so even files with embedded NULs still give valid length - see https://stackoverflow.com/a/12698815/8545455
+                $app_log->info("file " . basename($msg_filename) . ", attachment " . $a->getFilename() . ", type ".
+                    $a->getContentType() . ", length " . $contentLength . " bytes");
                 if($contentLength > $max_attachment_size) {
-                    $app_log->info("file " . basename($msg_filename) . " contains attachment " . $a->getFilename() . ", type ". $a->getContentType() .
-                        " that is " . $contentLength . " bytes, exceeding configured max_attachment_size of " . $max_attachment_size . PHP_EOL);
+                    $app_log->info("Exceeds configured max_attachment_size of " . $max_attachment_size . " bytes. Dropped.");
                     $attachTooBig = true;
                 }
             }
@@ -257,12 +259,14 @@ foreach($file_list as $jfile) {
         if(!$attachTooBig && $fileVerdictOK) {
             // This email was OK
             if($replies_enabled) {
-                sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_accept_template, $basicFrom);
+                sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_accept_template, $basicFrom, null);
             }
         } else {
             // This email was bad
             if($replies_enabled) {
-                sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_reject_template, $basicFrom);
+                // give size limit in terms of megabytes, as easier for people to understand
+                $sub_data = ["max_attachment_size" => strval($max_attachment_size/1024/1024) . " megabytes"];
+                sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_reject_template, $basicFrom, $sub_data);
             }
             $jsonVerdictOK = false;                                       // we won't forward the enclosing JSON
         }
