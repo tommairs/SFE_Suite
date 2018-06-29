@@ -1,4 +1,4 @@
-# crontab -e, then edit and paste in the following:
+# crontab -e , then edit and paste in the following:
 #
 # The paths below assume you have a copy of the project installed in to /var/www/html/SFE_Suite.  Adjust as required.
 #
@@ -10,6 +10,8 @@
 # To elaborate on this: I found running the script as "root" meant that logfiles get created with root permission.
 # Then apache (which has lower permissions) can't log to the same file. It's really handy having one app logfile
 # for "infilter" with the actual time sequence of operations preserved, hence going the extra mile here.
+#
+# It's also easier to edit a crontab file set up in our usual user (centos) rather than crontab -u centos, but your mileage may vary.
 #
 # This executes the script every 1 minute
 
