@@ -2,6 +2,8 @@
     "require": {
         "php-mime-mail-parser/php-mime-mail-parser": "^2.11",
         "guzzlehttp/guzzle": "^6.3",
-        "katzgrau/klogger": "dev-master"
+        "katzgrau/klogger": "dev-master",
+        "php-http/guzzle6-adapter": "^1.1",
+        "sparkpost/sparkpost": "^2.1"
     }
 }
