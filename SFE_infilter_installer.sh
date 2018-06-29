@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 # Installer for "infilter" tool SMT 2018-06-28
-
+#
+# You are STRONGLY RECOMMENDED to copy/paste this one line at a time, to check output results, rather than running at once
+#
 # This installer may need to be run as root, because of the way the overall project folder is installed as root
 
 # first, get PHP mailparse extension
@@ -8,11 +10,11 @@
 #   https://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/
 #   https://ma.ttias.be/installing-the-pecl-pear-mailparse-module-for-php-on-centos/
 
-sudo curl -O http://pear.php.net/go-pear.phar
+curl -O http://pear.php.net/go-pear.phar
 php -d detect_unicode=0 go-pear.phar
 /home/centos/pear/bin/pear version
-sudo yum install re2c
-sudo /home/centos/pear/bin/pear install pecl/mailparse			# almost works .. missing util re2c
+yum install re2c
+/home/centos/pear/bin/pear install pecl/mailparse
 
 # note workaround to get mailparse to load late - (by naming the ini file z- ..)
 # see https://stackoverflow.com/questions/21127052/php-mailparse-so-error-undefined-symbol-mbfl-convert-filter-flush
@@ -50,4 +52,41 @@ mkdir app_logs
 chown apache:apache app_logs
 chmod 755 app_logs
 
-echo "*** Now set up your specific config items in infilter/suite.ini.example, such as SparkPost API key etc"
+# do following as root
+yum-config-manager --enable epel
+yum install -y clamav-server clamav-data clamav-update clamav-filesystem clamav clamav-scanner-systemd clamav-devel clamav-lib clamav-server-systemd
+
+vim /etc/freshclam.conf
+# ensure that #Example line is commented out.  Optionally we can log the update messages
+## UpdateLogFile /var/log/freshclam.log
+
+freshclam
+vim /etc/clamd.d/scan.conf
+vim /etc/cron.d/clamav-update
+vim /etc/sysconfig/freshclam
+
+# create clamd logfile appropriate owner / permissions (clam runs as special non-root user clamscan)
+cd /var/log
+echo .>/var/log/clamd.scan
+chown clamscan:clamscan clamd.scan
+
+# check the daemon can run in interactive mode, without giving errors
+/usr/sbin/clamd -c /etc/clamd.d/scan.conf –nofork=yes
+systemctl  start clamd@scan
+systemctl  status clamd@scan
+
+# here are the clamav logfiles to monitor
+sudo tail -f /var/log/clamd.scan /var/log/freshclam.log
+
+# test that crontab job is working.  Should cause logfile output
+/usr/share/clamav/freshclam-sleep xnow
+
+crontab cronfile
+# check that this is properly set up with crontab -e
+
+echo "*** Now set up your specific config items in infilter/suite.ini, such as SparkPost API key etc"
+
+# app logs will appear in dir set in suite.ini
+
+# using swaks to send emails to the scanner with attachments - example
+#  swaks --from steve.tuck@sparkpost.com --to test@relay.thetucks.com --attach ~/quarantine/eicar.txt
