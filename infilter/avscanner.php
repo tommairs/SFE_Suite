@@ -141,6 +141,20 @@ function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template,
     }
 }
 
+// Deliver an object (internally converted to JSON) using the specified delivery method
+function deliver_json($delivery_method, $delivery_url, $obj)
+{
+    global $app_log;
+    $client = new \GuzzleHttp\Client(['http_errors' => false]);
+    $res = $client->request($delivery_method, $delivery_url, [ "json" => $obj, "timeout" => 30]);
+    if($res->getStatusCode() != 200) {
+        $app_log->warning("unexpected status code " . $res->getStatusCode() .
+            " from " . $delivery_url . " : " . $res->getReasonPhrase());
+    } else {
+        $app_log->info("message http " . $delivery_method . " to " . $delivery_url);
+    }
+}
+
 
 //--------------------------------------------------------------------------------------------------------------------
 // Main code
@@ -190,7 +204,6 @@ foreach($file_list as $jfile) {
         $app_log->warning("content body must be valid JSON format - file " . basename($jfile));
     }
     $msg_count = 0;
-    $jsonVerdictOK = true;                                      // this flag is for all messages in this JSON POST
     foreach ($ir as $msg_idx => $e) {
         $msg = $e->msys->relay_message;
         if (!$msg) {
@@ -231,7 +244,6 @@ foreach($file_list as $jfile) {
             // Get an array of Attachment items from $Parser.  Check inline images/content also
             $attachments = $Parser->getAttachments(true);
             foreach($attachments as $a) {
-                ;
                 $contentLength = strlen($a->getContent());
                 // PHP strings are binary-safe so even files with embedded NULs still give valid length - see https://stackoverflow.com/a/12698815/8545455
                 $app_log->info("file " . basename($msg_filename) . ", attachment " . $a->getFilename() . ", type ".
@@ -261,6 +273,7 @@ foreach($file_list as $jfile) {
             if($replies_enabled) {
                 sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_accept_template, $basicFrom, null);
             }
+            deliver_json($delivery_method, $delivery_url, $msg);
         } else {
             // This email was bad
             if($replies_enabled) {
@@ -268,18 +281,6 @@ foreach($file_list as $jfile) {
                 $sub_data = ["max_attachment_size" => strval($max_attachment_size/1024/1024) . " megabytes"];
                 sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_reject_template, $basicFrom, $sub_data);
             }
-            $jsonVerdictOK = false;                                       // we won't forward the enclosing JSON
-        }
-    }
-    // now checked the emails within this JSON file.  Push it out if OK.  This is assuming really 1 message per JSON file, which is currently the case
-    if($jsonVerdictOK) {
-        $client = new \GuzzleHttp\Client(['http_errors' => false]);
-        $res = $client->request($delivery_method, $delivery_url, [ "body" => $rawBody, "timeout" => 30]);
-        if($res->getStatusCode() != 200) {
-            $app_log->warning("unexpected status code " . $res->getStatusCode() .
-                " from " . $delivery_url . " : " . $res->getReasonPhrase());
-        } else {
-            $app_log->info("message http " . $delivery_method . " to " . $delivery_url);
         }
     }
 }
