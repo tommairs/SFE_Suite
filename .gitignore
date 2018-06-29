@@ -70,3 +70,5 @@ infilter/app_logs
 # Exclude composer sources, as these will be fetched afresh on install #
 ########################################################################
 vendor/
+composer*
+*.phar
