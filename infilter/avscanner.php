@@ -282,5 +282,11 @@ foreach($file_list as $jfile) {
                 sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_reject_template, $basicFrom, $sub_data);
             }
         }
+        // Finished with this .eml file - move it to done dir
+        // Production code could delete the file, rather than move it
+        rename($msg_filename, $done_path . DIRECTORY_SEPARATOR . basename($msg_filename));
     }
+    // Finished with this JSON input file - move it to the done (dung?) dir
+    // Production code could delete the file, rather than move it
+    rename($jfile, $done_path . DIRECTORY_SEPARATOR . basename($jfile) );
 }
