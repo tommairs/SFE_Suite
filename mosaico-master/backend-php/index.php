@@ -328,6 +328,18 @@ function ProcessDlRequest()
 
 	switch ( $_POST[ "action" ] )
 	{
+                case "store":
+                {
+                        header( "Content-Type: application/force-download" );
+                        header( "Content-Disposition: attachment; filename=\"" . $_POST[ "filename" ] . "\"" );
+                        header( "Content-Length: " . strlen( $html ) );
+
+                        echo $html;
+
+                        break;
+                }
+
+
 		case "download":
 		{
 			header( "Content-Type: application/force-download" );
@@ -343,6 +355,8 @@ function ProcessDlRequest()
 		{
 			$to = $_POST[ "rcpt" ];
 			$subject = $_POST[ "subject" ];
+                        $passwd = "lkasjdopqjdkqmccnqpqwdlkmqdop";
+                        $subs = "";
 
 			$headers = array();
 
@@ -353,11 +367,31 @@ function ProcessDlRequest()
 
 			$headers = implode( "\r\n", $headers );
 
+                        // Create POST Payload
+  $postdata = array('email' => $to,'password' => $passwd,'subject' => $subject,'headers' => $headers,'html' => $html,'subs' => $subs);
+  
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "http://suite.trymsys.net/mailer.php");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($ch, CURLOPT_HEADER, TRUE);
+  curl_setopt($ch, CURLOPT_POST, TRUE);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type' => 'application/x-www-form-urlencoded;charset=UTF-8'));
+
+  $response = curl_exec($ch);
+  curl_close($ch);
+
+
+ 
+
+                /*
+
 			if ( mail( $to, $subject, $html, $headers ) === FALSE )
 			{
 				$http_return_code = 500;
 				return;
 			}
+                */
 
 			break;
 		}

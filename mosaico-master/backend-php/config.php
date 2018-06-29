@@ -5,13 +5,14 @@
 $config = [
 
 	/* Url for image serving in final download */
-	SERVE_URL => "https://YOUR_EMAIL_IMAGE_SERVER_URL/",
+	//SERVE_URL => "https://YOUR_EMAIL_IMAGE_SERVER_URL/",
+	SERVE_URL => "http://suite.trymsys.net/mosaico/production/",
 
 	/* Base Url for accessing Mosaco */
-	BASE_URL => "http://YOUR_MOSAICO_URL/",
+	BASE_URL => "http://suite.trymsys.net/mosaico/",
 	
 	/* local file system base path to where image directories are located */
-	BASE_DIR => "/var/www/mosaico/",
+	BASE_DIR => "/var/www/mosaico-master/",
 	
 	/* url to the uploads folder (relative to BASE_URL) */
 	UPLOADS_URL => "uploads/",
@@ -20,7 +21,7 @@ $config = [
 	UPLOADS_DIR => "uploads/",
 	
 	/* url to the static images folder (relative to SERVE_URL) */
-	STATIC_URL => "media/newsletter/static/",
+	STATIC_URL => "static/",
 
 	/* local file system path to the static images folder (relative to BASE_DIR) */
 	STATIC_DIR => "uploads/static/",
