@@ -87,3 +87,6 @@ crontab cronfile
 echo "*** Now set up your specific config items in infilter/suite.ini, such as SparkPost API key etc"
 
 # app logs will appear in dir set in suite.ini
+
+# using swaks to send emails to the scanner with attachments - example
+#  swaks --from steve.tuck@sparkpost.com --to test@relay.thetucks.com --attach ~/quarantine/eicar.txt
