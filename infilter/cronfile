@@ -1,0 +1,16 @@
+# crontab -e, then edit and paste in the following:
+#
+# The paths below assume you have a copy of the project installed in to /var/www/html/SFE_Suite.  Adjust as required.
+#
+# such that the bouncy-sink.ini configuration file is in ~/bouncy-sink, and the Python script is in ~/bouncy-sink/src
+#
+# sudo privilege is used to run the script as user "apache", so that it can read/write work files and logfiles with
+# the same permissions as web apps.
+#
+# To elaborate on this: I found running the script as "root" meant that logfiles get created with root permission.
+# Then apache (which has lower permissions) can't log to the same file. It's really handy having one app logfile
+# for "infilter" with the actual time sequence of operations preserved, hence going the extra mile here.
+#
+# This executes the script every 1 minute
+
+*/1 * * * * cd /var/www/html/SFE_Suite/infilter;  sudo -H -u apache bash -c 'php /var/www/html/SFE_Suite/infilter/avscanner.php' >/dev/null 2>&1
