@@ -19,7 +19,7 @@ require_once "app_common.php";
 // Below, we spool each inbound message to an RFC822-compliant .eml file ready for further batch processing.
 
 
-$p = getParams("suite.ini.example");
+$p = getParams("suite.ini");
 $avParams = $p["infilter"];
 // Get logging set up early on, for error reporting etc
 $app_log = new App_log($avParams["logdir"], basename(__FILE__));

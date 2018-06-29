@@ -146,7 +146,7 @@ function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template,
 //--------------------------------------------------------------------------------------------------------------------
 
 //--- Get configuration
-$p = getParams("suite.ini.example");
+$p = getParams("suite.ini");
 $avParams = $p["infilter"];
 // Get logging set up early on, for error reporting etc
 $app_log = new App_log($avParams["logdir"], basename(__FILE__));
