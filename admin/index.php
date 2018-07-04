@@ -1,6 +1,6 @@
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="/style.css">
+<link rel="stylesheet" type="text/css" href="/admin/style.css">
 </head>
 <body>
 <p>
@@ -9,7 +9,7 @@
 <table>
     <tr>
         <td class="title"><h2>Inbound Relay Webhook Management</h2></td>
-        <td class="title2"><a class="button" href="create">Create</a></td>
+        <td class="title2"><a class="button" href="create.php">Create</a></td>
     </tr>
 </table>
 
@@ -33,7 +33,7 @@ echo '<table>';
 echo '<tr class="stripy"><th class="name">Name</th> <th class="target">Target</th> <th class="auth_token">auth_token</th> <th class="match_domain">match.domain</th></tr>';
 
 foreach($d ->results as $i => $k) {
-    echo '<tr class="stripy"><td class="name"><a href="details?id=' . $k->id . '">' . $k->name . '</a></td>
+    echo '<tr class="stripy"><td class="name"><a href="details.php?id=' . $k->id . '">' . $k->name . '</a></td>
     <td class="target">' . $k->target . '</td>
     <td class="auth_token">' . $k->auth_token . '</td>
     <td class="match_domain">' . $k->match->domain . '</td></tr>';

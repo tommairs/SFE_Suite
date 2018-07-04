@@ -1,0 +1,49 @@
+/* basic style sheet for display of data tables, buttons etc */
+
+body { font-family: arial; font-size: initial }
+table { width: 1200px}
+p { width: 1200px; font-size: 14px }
+p.entry_descr { color: #55555a; font-size: 16px }
+p.entry_hint { color: #55555a; font-size: 12px }
+
+
+h1 { font-family: arial; font-size: 24px }
+h2 { font-family: arial; font-size: 18px }
+
+tr.stripy:nth-child(odd) { background-color: #f2f2f2; }
+
+th, td { text-align: left; padding: 8px; }
+
+td.title {width: 80%}
+td.title2 {width: 20%}
+
+/* layout for the main display table */
+th {background-color: #cccccc; color: black;}
+th.name {width: 30%}
+th.target {width: 30%}
+th.auth_token {width: 20%}
+th.match_domain {width: 20%}
+
+td.name {width: 30%}
+td.target {width: 30%}
+td.auth_token {width: 20%}
+td.match_domain {width: 20%}
+
+a { text-decoration: none; color: #37aadc;}
+
+a.button { text-decoration: none; color: white; background-color: #fa6423; border: 4px; padding: 8px; }
+
+input { font-size: 16px }
+
+input[type=text] {
+    padding:5px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input[type=text]:focus {
+    border-color:#333;
+}
+
+input[type=submit] { color: white; background-color: #fa6423; border:4px; padding: 8px; cursor:pointer; }
