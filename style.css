@@ -1,0 +1,37 @@
+/* basic style sheet for display of data tables, buttons etc */
+
+body { font-family: arial; }
+table { width: 1200px; }
+p { width: 1200px }
+
+h1 { font-family: arial; font-size: 24px }
+h2 { font-family: arial; font-size: 18px }
+
+tr.stripy:nth-child(odd) {background-color: #f2f2f2; border:0px}
+
+th, td { text-align: left; padding: 8px; }
+
+td.title {width: 80%}
+td.title2 {width: 20%}
+
+/* layout for the main display table */
+th {background-color: #cccccc; color: black;}
+th.name {width: 30%}
+th.target {width: 30%}
+th.auth_token {width: 20%}
+th.match_domain {width: 20%}
+
+td.name {width: 30%}
+td.target {width: 30%}
+td.auth_token {width: 20%}
+td.match_domain {width: 20%}
+
+a { text-decoration: none; color: #37aadc;}
+
+a.button {
+    text-decoration: none;
+    color: white;
+    background-color: #fa6423;
+    border: 4px;
+    padding: 8px;
+}

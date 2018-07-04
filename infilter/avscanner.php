@@ -1,8 +1,15 @@
 <?php
 /*
- * Simple AV file scanner
+ * Inbound mail file scanning:
+ *  This behaviour can be customised in suite.ini
  *
- * Based on https://github.com/Elycin/php-clamav/
+ *      - Collects JSON-format inbound relay mail files from configured spool directory
+ *      - puts each mail in RFC822 .eml format into spool/eml directory ready for scanning
+ *      - Unpacks MIME parts and checks attachment size against configurable maximum
+ *      - Invokes clamd service to scan mail. clamd will check the whole mail incl. attachments
+ *      - If mail is OK, forwards to endpoint using http(s) POST and sends a "thank you .." reply back via SparkPost
+ *      - If mail is not OK, sends a "we could not accept" reply back via SparkPost
+ *      - Processed .eml and JSON files are moved to the "done" folder
  *
  * Steve Tuck, SparkPost - June 2018
  *
@@ -15,106 +22,8 @@
  *                 use Composer command shown on ths page
  */
 require_once '../vendor/autoload.php';
-require_once "app_common.php";
-
-class Clamd_service
-{
-    private $socket_path;
-    private $socket;
-    private $buffer_length = 1024;
-
-    private $character_prefix = "n";
-
-    public function __construct($socket_path = "/tmp/clamd.ctl")
-    {
-        $this->socket_path = $socket_path;
-        return $this->doesSocketExist();
-    }
-
-    public function doesSocketExist()
-    {
-        return is_file($this->socket_path);
-    }
-
-    private function connect()
-    {
-        $this->socket = fsockopen("unix://" . $this->socket_path);
-        return $this->socket;
-    }
-
-    // low level socket access function - no need to call this directly
-    private function send($query)
-    {
-        global $app_log;
-        if(!$this->connect()) {
-            $app_log->error("Can't connect to socket " . $this->socket_path);
-            exit(1);
-        }
-        fwrite($this->socket, $query);
-        $response = fread($this->socket, $this->buffer_length);
-        fclose($this->socket);
-        return $response;
-    }
-
-    // multipurpose method supporting all clamd commands. Maps method name into uppercase command.
-    public function __call($name, $arguments)
-    {
-        // prevent PHP warning with empty arguments
-        if(empty($arguments)) {
-            $arguments[0] = "";
-        }
-        $pending_command = trim(sprintf("%s%s %s",
-                $this->character_prefix, strtoupper($name), $arguments[0])) . "\n";
-        return $this->send($pending_command);
-    }
-}
-
-// helper to get config
-function get_config($avParams, $k)
-{
-    if (!array_key_exists($k, $avParams)) {
-        return null;
-    } else {
-        return $avParams[$k];
-    }
-}
-
-// same as above, but we exit if not set
-function get_config_mandatory($avParams, $k)
-{
-    global $app_log;
-    $c = get_config($avParams, $k);
-    if($c) {
-        return $c;
-    } else {
-        $app_log->error($k . " not defined - check .ini file");
-        exit(1);
-    }
-}
-
-// helper to check if configured directories are set up and readable/writeable)
-function chk_config($avParams, $k, $mode)
-{
-    global $app_log;
-    $d = get_config_mandatory($avParams, $k);
-    $dpath = realpath($d);
-    if (!$dpath) {
-        $app_log->error("can't open " . $dpath);
-        exit(1);
-    }
-    if ($mode === "r") {
-        if (!is_readable($dpath)) {
-            $app_log->error("can't open " . $dpath . " for reading");
-            exit(1);
-        }
-    } elseif ($mode === "w") {
-        if (!is_writeable($dpath)) {
-            $app_log->error("can't open " . $dpath . " for writing");
-            exit(1);
-        }
-    }
-    return $dpath;              // all OK
-}
+require_once "../app_common.php";
+require_once "clamd_service.php";
 
 // helper to send replies back via SparkPost using specified template
 function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template, $recip, $global_sub_data)
@@ -161,7 +70,7 @@ function deliver_json($delivery_method, $delivery_url, $obj)
 //--------------------------------------------------------------------------------------------------------------------
 
 //--- Get configuration
-$p = getParams("suite.ini");
+$p = getParams("../suite.ini");
 $avParams = $p["infilter"];
 // Get logging set up early on, for error reporting etc
 $app_log = new App_log($avParams["logdir"], basename(__FILE__));

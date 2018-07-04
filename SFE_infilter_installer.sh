@@ -61,9 +61,13 @@ vim /etc/freshclam.conf
 ## UpdateLogFile /var/log/freshclam.log
 
 freshclam
+
 vim /etc/clamd.d/scan.conf
 vim /etc/cron.d/clamav-update
 vim /etc/sysconfig/freshclam
+
+# start the scanner daemon, if necessary specifying the config file
+clamd --config-file /etc/clamd.d/scan.conf
 
 # create clamd logfile appropriate owner / permissions (clam runs as special non-root user clamscan)
 cd /var/log
