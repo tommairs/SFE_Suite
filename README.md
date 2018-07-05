@@ -34,7 +34,8 @@ The intention was to build this entirely in AWS so all the instructions are gear
 4. create the application folder and cd to it ( mkdir sfesuite;cd sfesuite )
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
 6. execute SFEinstaller.sh as root (sudo sh SFEinstaller.sh )
-7. navigate a browser to your host url and start [using it](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
+7. rename env.ini.example to env.ini and manually edit it with your own specific values.  This software will not work without it. 
+8. navigate a browser to your host url and start [using it](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
 
 ## Usage
 For usage instructions please refer to [USAGE.md](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
