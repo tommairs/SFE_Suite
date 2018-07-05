@@ -1,0 +1,6 @@
+        var templateList = [
+              {name: 'versafix-1', desc: 'The versatile template'},
+              {name: 'sample-2', desc: 'Sample template2'},
+              {name: 'Welcome_Mail', desc: 'First Welcome message'}
+        ];
+
