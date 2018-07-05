@@ -32,6 +32,11 @@ Alias /templates/ /var/www/mosaico-master/templates/
     Allow from all
 </Directory>
 
+<Files  ~ "\.ini$">
+  Order allow,deny
+  Deny from all
+</Files>
+
 
 </VirtualHost>
 " > /etc/httpd/conf.d/sfesuite.conf
