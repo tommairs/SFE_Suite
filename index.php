@@ -1,13 +1,11 @@
 <?php
 
-/*
 // make sure we start with a secure connection.
 if ($_SERVER['SERVER_PORT'] != "443"){
    header("Location: https://suite.trymsys.net");
    die();
 }
 
-*/
 
 ?>
 
