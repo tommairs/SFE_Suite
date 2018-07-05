@@ -24,11 +24,13 @@ if ($_SERVER['SERVER_PORT'] != "443"){
     Simple Front End Suite
   </h1>
 <p>
-<b>Select a function:</b> </br>
-<a href="/mosaico/">Template Editor</a><br>
-<a href="/workflow/mgr.html">Template Library Managager</a><br>
-<a href="/config">Manage Configuration  Data</a><br>
-<a href="/admin/">Relay Webhook Administration</a><br>
+<h2>Select a function:</h2> </br>
+<table>
+<tr><td bgcolor=#f49242><a href="/mosaico/">Template Editor</a><br></td></tr>
+<tr><td bgcolor=#f4ca41><a href="/workflow/">Template Library Manager</a><br></td></tr>
+<tr><td bgcolor=#85f441><a href="/config/">Manage Configuration Data</a><br></td></tr>
+<tr><td bgcolor=#41f4d3><a href="/admin/">Relay Webhook Administration</a><br></td></tr>
+</table>
 </p>
  </body>
 </html>
