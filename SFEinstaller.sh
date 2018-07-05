@@ -26,11 +26,16 @@ Alias /upload/ /var/www/mosaico-master/backend-php/
 Alias /templates/ /var/www/mosaico-master/templates/
 
 <Directory /var/www/mosaico-master>
-    Options Indexes MultiViews FollowSymLinks
+    Options MultiViews FollowSymLinks
     AllowOverride All
     Order allow,deny
     Allow from all
 </Directory>
+
+<Files  ~ "\.ini$">
+  Order allow,deny
+  Deny from all
+</Files>
 
 
 </VirtualHost>
@@ -54,7 +59,9 @@ npm install mysql -save
 npm audit fix
 grunt
 
-cp templates/ dist/ -rf
+mv templates/ dist/ -f
+ln -s dist/templates templates
+mv templatelist.json dist/ -f
 
 
 ## END ##
