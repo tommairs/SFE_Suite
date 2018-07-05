@@ -46,7 +46,7 @@ Thumbs.db
 
 # Config and Environment files #
 ################################
-./*.ini
+*/*.ini
 *.ini
 
 # Exclude local IDE workfiles #
