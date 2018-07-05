@@ -124,7 +124,6 @@ function delete_resource($sparkpost_host, $sparkpost_api_key, $resource, $id)
         "Authorization" => $sparkpost_api_key
     ];
     try {
-
         $res = $client->request($method, $req_uri, ["headers" => $req_hdrs, "timeout" => 30]);
         if($res->getStatusCode() != 200) {
             $app_log->warning("Unexpected status code " . $res->getStatusCode() .
@@ -132,6 +131,48 @@ function delete_resource($sparkpost_host, $sparkpost_api_key, $resource, $id)
         } else {
             $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
         }
+        return array($res->getStatusCode(), json_decode($res->getBody()));
+    } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+        $app_log->error($e);
+        return null;
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+// Target and MX record checking
+//--------------------------------------------------------------------------------------------------------------------
+
+function check_target($req_uri)
+{
+    global $app_log;
+    $client = new \GuzzleHttp\Client(["http_errors" => false]);
+    $method = "POST";
+    $req_hdrs = [
+        "Accept" => "application/json",
+    ];
+    try {
+        $res = $client->request($method, $req_uri, ["json" => [], "headers" => $req_hdrs, "timeout" => 5]);
+        $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
+        return array($res->getStatusCode(), json_decode($res->getBody()));
+    } catch (\GuzzleHttp\Exception\GuzzleException $e) {
+        $app_log->error($e);
+        return null;
+    }
+}
+
+function check_mx($req_uri)
+{
+    return true;
+
+    global $app_log;
+    $client = new \GuzzleHttp\Client(["http_errors" => false]);
+    $method = "POST";
+    $req_hdrs = [
+        "Accept" => "application/json",
+    ];
+    try {
+        $res = $client->request($method, $req_uri, ["json" => [], "headers" => $req_hdrs, "timeout" => 5]);
+        $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
         return array($res->getStatusCode(), json_decode($res->getBody()));
     } catch (\GuzzleHttp\Exception\GuzzleException $e) {
         $app_log->error($e);

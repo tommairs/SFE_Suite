@@ -30,7 +30,7 @@ $ir_id = get_elem_mandatory($_GET, "id");
 // Get the domain from this webhook so that we can also delete it
 list($res, $d) = get_resource($sparkpost_host, $sparkpost_api_key, "relay-webhooks", $ir_id);
 if ($res != 200) {
-    echo "Can't get relay webhook id " . $ir_id;
+    echo "Can't get relay webhook id " . $ir_id . " : " . $d->errors[0]->message . " : " . $d->errors[0]->description ."<br>";
     exit(1);
 }
 $domain = $d->results->match->domain;
@@ -39,14 +39,14 @@ list($res, $d) = delete_resource($sparkpost_host, $sparkpost_api_key, "relay-web
 if ($res == 200) {
     echo "Webhook deleted <br>";
 } else {
-    echo "Problem deleting webhook: " . $d->errors[0]->message . "<br>";
+    echo "Problem deleting webhook: " . $d->errors[0]->message . " : " . $d->errors[0]->description ."<br>";
 }
 
 list($res, $d) = delete_resource($sparkpost_host, $sparkpost_api_key, "inbound-domains", $domain);
 if ($res == 200) {
-    echo "Inbound domain deleted <br>";
+    echo "Inbound domain " . $domain . " deleted <br>";
 } else {
-    echo "Problem deleting inbound domain: " . $d->errors[0]->message . "<br>";
+    echo "Problem deleting inbound domain " . $domain . " : " . $d->errors[0]->message . " : " . $d->errors[0]->description ."<br>";
 }
 ?>
 

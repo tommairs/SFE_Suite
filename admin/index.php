@@ -30,16 +30,29 @@ $sparkpost_host = get_config_mandatory($p["SparkPost"], "sparkpost_host");
 list($res, $d) = get_resource_list($sparkpost_host, $sparkpost_api_key, "relay-webhooks");
 
 echo '<table>';
-echo '<tr class="stripy"><th class="name">Name</th> <th class="target">Target</th> <th class="auth_token">auth_token</th> <th class="match_domain">match.domain</th></tr>';
+echo '<tr class="stripy">
+    <th class="name">Name</th>
+    <th class="target">Target</th>
+    <th class="auth_token">auth_token</th>
+    <th class="match_domain">match.domain</th>
+    <th class="mx_check">MX check</th>
+    <th class="endpoint_check">Target check</th>
+    </tr>';
 
 foreach($d ->results as $i => $k) {
-    echo '<tr class="stripy"><td class="name"><a href="edit.php?id=' . $k->id . '">' . $k->name . '</a></td>
+    $endpoint_str = (check_target($k->target) == 200) ? '<span style="color:lightgreen">&#x2714;</span>' : '<span style="color:red">x</span>';
+    $mx_str = (check_mx($k->match->domain) == 200) ? '<span style="color:lightgreen">&#x2714;</span>' : '<span style="color:red">x</span>';
+
+    echo '<tr class="stripy">
+    <td class="name"><a href="edit.php?id=' . $k->id . '">' . $k->name . '</a></td>
     <td class="target">' . $k->target . '</td>
     <td class="auth_token">' . $k->auth_token . '</td>
-    <td class="match_domain">' . $k->match->domain . '</td></tr>';
+    <td class="match_domain">' . $k->match->domain . '</td>
+    <td class="mx_check">' . $mx_str . '</td>
+    <td class="endpoint_check">' . $endpoint_str . '</td>
+    </tr>';
 }
 echo '</table>';
-
 ?>
 
 <br>
