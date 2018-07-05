@@ -13,7 +13,7 @@
     </tr>
 </table>
 
-<form action = "do_create.php" method="post">
+<form action = "do_create_update.php" method="post">
     <fieldset>
         <legend>Inbound Relay Webhook Settings:</legend>
         <p class="entry_descr"> Name:</p>
@@ -30,7 +30,7 @@
         Your receiver can use this value to confirm the POST is genuine.</p>
         <br>
         <p class="entry_descr"> Match Domain:</p>
-        <input type="text" name="match_domain" onfocus="this.value=''" value="bobsburgers.com" size="80"><br>
+        <input type="text" name="match_domain" onfocus="this.value=''" value="inbound.example.com" size="80"><br>
         <p class = "entry_hint"> Inbound domain associated with this webhook. You will need to set up DNS MX records for this so that any mail for the above domain will be routed to SparkPost.</p>
         <br>
         <input type="submit" value="Create webhook">

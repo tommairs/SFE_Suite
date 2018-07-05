@@ -27,13 +27,13 @@ $app_log = new App_log($p["admin"]["logdir"], basename(__FILE__));
 
 $sparkpost_api_key = get_config_mandatory($p["SparkPost"], "sparkpost_api_key");
 $sparkpost_host = get_config_mandatory($p["SparkPost"], "sparkpost_host");
-list($res, $d) = get_ir_hooks($sparkpost_host, $sparkpost_api_key);
+list($res, $d) = get_resource_list($sparkpost_host, $sparkpost_api_key, "relay-webhooks");
 
 echo '<table>';
 echo '<tr class="stripy"><th class="name">Name</th> <th class="target">Target</th> <th class="auth_token">auth_token</th> <th class="match_domain">match.domain</th></tr>';
 
 foreach($d ->results as $i => $k) {
-    echo '<tr class="stripy"><td class="name"><a href="details.php?id=' . $k->id . '">' . $k->name . '</a></td>
+    echo '<tr class="stripy"><td class="name"><a href="edit.php?id=' . $k->id . '">' . $k->name . '</a></td>
     <td class="target">' . $k->target . '</td>
     <td class="auth_token">' . $k->auth_token . '</td>
     <td class="match_domain">' . $k->match->domain . '</td></tr>';
