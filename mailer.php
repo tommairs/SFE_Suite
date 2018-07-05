@@ -46,6 +46,8 @@ if ($password != $securitycode){
 }
 
 // If this is a valid request, process the transmission
+/*
+
 require 'vendor/autoload.php';
 
 use SparkPost\SparkPost;
@@ -82,27 +84,41 @@ $promise = $sparky->transmissions->post([
         ],
     ],
 ]);
+*/
 
-$myjson = "[
-    'content' => [
-        'from' => [
-            'name' => $alertsenderename,
-            'email' => $alertsenderemail,
-        ],
-        'subject' => $subject,
-        'html' => $html,
-        'text' => 'This transmission is HTML Only.',
-    ],
-    'substitution_data' => [$subs],
-    'recipients' => [
-        [
-            'address' => [
-                'name' => $to_pretty,
-                'email' => $to_email,
-            ],
-        ],
-    ],
-]";
+
+
+$myjson = '{
+  "options": {
+    "open_tracking": true,
+    "click_tracking": true
+  },
+  "campaign_id": "SFE Test Messages",
+  "metadata": {},
+  "substitution_data": {},
+  "recipients": [
+    {
+      "address": {
+        "email": "'.$to_email.'",
+        "name": "'.$to_pretty.'"
+      },
+      "substitution_data": {}
+    }
+  ],
+  "content": {
+      "from": {
+      "name": "'.$alertsenderename.'",
+      "email": "'.$alertsendereemail.'"
+    },
+    "subject": "'.$subject.'",
+    "text": "This messages is HTML only",
+    "html": "'.$html.'"
+  }
+  }
+}
+';
+
+
 file_put_contents("testfile.txt", $myjson);
 
 /*
