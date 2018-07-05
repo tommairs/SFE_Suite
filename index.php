@@ -17,6 +17,7 @@ if ($_SERVER['SERVER_PORT'] != "443"){
   <title>
     Simple Front End Suite
   </title>
+<link rel="stylesheet" type="text/css" href="styles.css">
  </head>
  <body>
   <h1>
@@ -25,12 +26,9 @@ if ($_SERVER['SERVER_PORT'] != "443"){
 <p>
 <b>Select a function:</b> </br>
 <a href="/mosaico/">Template Editor</a><br>
-<a href="/archiver/search.html">Search the message archive</a><br>
-<a href="/infilter/inbox.html">Manage the Inbox</a><br>
-<a href="/workflow/mgr.html">Manage Workflows</a><br>
-<a href="/vib/mgr.html">Manage View-In-Browser data</a><br>
-<a href="/admin/">Site Administration</a><br>
-
+<a href="/workflow/mgr.html">Template Library Managager</a><br>
+<a href="/config">Manage Configuration  Data</a><br>
+<a href="/admin/">Relay Webhook Administration</a><br>
 </p>
  </body>
 </html>
