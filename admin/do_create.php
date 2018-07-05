@@ -30,7 +30,7 @@ if(!empty($_POST)) {
             "protocol" => "SMTP"
         ]
     ];
-    [$res, $d] = create_ir_hook($sparkpost_host, $sparkpost_api_key, $app_log, $body);
+    list($res, $d) = create_ir_hook($sparkpost_host, $sparkpost_api_key, $app_log, $body);
     if($res == 200) {
         echo "Webhook created";
     } else {

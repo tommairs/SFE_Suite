@@ -24,7 +24,7 @@ function get_ir_hooks($sparkpost_host, $sparkpost_api_key)
     } else {
         $app_log->info("GET relay-webhooks - OK");
     }
-    return [$res->getStatusCode(), json_decode($res->getBody())];
+    return array($res->getStatusCode(), json_decode($res->getBody()));
 }
 
 // Create an inbound relay webhook, from object in $body. Log activity to app_log. Return a tuple.
@@ -46,7 +46,7 @@ function create_ir_hook($sparkpost_host, $sparkpost_api_key, $body)
     } else {
         $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
     }
-    return [$res->getStatusCode(), json_decode($res->getBody())];
+    return array($res->getStatusCode(), json_decode($res->getBody()));
 }
 
 // Update an inbound relay webhook, from object in $body. Log activity to app_log. Return a tuple.
@@ -68,7 +68,7 @@ function update_ir_hook($sparkpost_host, $sparkpost_api_key, $body)
     } else {
         $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
     }
-    return json_decode($res->getBody());
+    return array($res->getStatusCode(), json_decode($res->getBody()));
 }
 
 // Delete an inbound relay webhook $id. Log activity to app_log
@@ -87,9 +87,8 @@ function delete_ir_hook($sparkpost_host, $sparkpost_api_key, $id)
     if($res->getStatusCode() != 200) {
         $app_log->warning("Unexpected status code " . $res->getStatusCode() .
             " from " . $req_uri . " : " . $res->getReasonPhrase());
-        return null;
     } else {
         $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
-        return json_decode($res->getBody());
     }
+    return array($res->getStatusCode(), json_decode($res->getBody()));
 }
