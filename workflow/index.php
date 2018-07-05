@@ -15,15 +15,13 @@ if ($_SERVER['SERVER_PORT'] != "443"){
   <title>
     Simple Front End Suite
   </title>
-<link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="styles.css">
  </head>
  <body>
-  <h1>
-    Template Library Manager
-  </h1>
-<p>
-<h2>Select a template to manage:</h2> </br>
-<table border=1>
+  <h1>Template Library Manager</h1>
+<a href=/>Top Menu</a>
+<h2>Select a template to manage:</h2>
+<table cellpadding=5 cellspacing=1 border=1>
 <tr bgcolor=#919396>
   <th>Template Name/Link</th>
   <th>Thumb</th>
@@ -37,6 +35,5 @@ if ($_SERVER['SERVER_PORT'] != "443"){
   <td>0192830981203</td>
 </tr>
 </table>
-</p>
  </body>
 </html>
