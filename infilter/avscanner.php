@@ -32,7 +32,8 @@ function sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $template,
     $client = new \GuzzleHttp\Client(["http_errors" => false]);
     $req_uri = $sparkpost_host. "/api/v1/transmissions";
     //DEBUG: override this, e.g. $req_uri = "https://my-runscope.herokuapp.com/sgr3p0sg";
-    $req_hdrs = [ "Content-Type"  => "application/json",
+    $req_hdrs = [
+        "Content-Type"  => "application/json",
         "Accept" => "application/json",
         "Authorization" => $sparkpost_api_key
     ];

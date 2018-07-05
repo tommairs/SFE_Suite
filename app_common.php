@@ -81,7 +81,10 @@ function chk_config($avParams, $k, $mode)
     return $dpath;              // all OK
 }
 
+//--------------------------------------------------------------------------------------------------------------------
 // Wrapper for Klogger that includes the basename of the PHP script in the log format
+//--------------------------------------------------------------------------------------------------------------------
+
 class App_log
 {
     private $logger, $progname;
@@ -113,5 +116,31 @@ class App_log
     public function debug($arg)
     {
         return $this->logger->debug($arg);
+    }
+}
+
+//--------------------------------------------------------------------------------------------------------------------
+// Helpers for accessing assoc arrays, such as _POST data
+//--------------------------------------------------------------------------------------------------------------------
+
+function get_elem($arr, $k)
+{
+    if (!array_key_exists($k, $arr)) {
+        return null;
+    } else {
+        return $arr[$k];
+    }
+}
+
+// same as above, but we log error & exit if not set
+function get_elem_mandatory($arr, $k)
+{
+    global $app_log;
+    $c = get_config($arr, $k);
+    if($c) {
+        return $c;
+    } else {
+        $app_log->error($k . " not defined in " . print_r($arr, true));
+        exit(1);
     }
 }
