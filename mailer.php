@@ -3,6 +3,7 @@
 include('env.ini');
 $to = $_POST['email'];
 $password = $_POST['password'];
+$controlcode = $_POST['controlcode'];
 $subject = $_POST['subject'];
 $headers = $_POST['headers'];
 $html = $_POST['html'];
@@ -104,13 +105,16 @@ $myjson = "[
 ]";
 file_put_contents("testfile.txt", $myjson);
 
+/*
 $today = time();
 $random = rand(10000,99999);
+$controlcode = $today.$random;
+*/
 
-//$pfile="previews/"$today.$random;
-$pfile="previews/123456123456123456";
+$pfile="previews/".$controlcode.".html";
+//$pfile="previews/123456123456123456.html";
 
-$mypreview = "<html><body onload="window.opener.close();"><p>";
+$mypreview = "<html><body onload='window.opener.close();'><p>";
 $mypreview .= "FROM: <$alertsenderename> $alertsenderemail <br>";
 $mypreview .= "TO: <$to_pretty> $to_email <br>";
 $mypreview .= "SUBJECT: $subject  <br><br>";
@@ -120,7 +124,7 @@ file_put_contents($pfile, $mypreview);
 
 // open preview in a new window
 
-header("location: preview.php?content=$pfile");
+//header("location: preview.php?content=$controlcode");
 
 
 ?>
