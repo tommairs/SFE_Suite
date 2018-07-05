@@ -153,7 +153,7 @@ function check_target($req_uri)
     try {
         $res = $client->request($method, $req_uri, ["json" => [], "headers" => $req_hdrs, "timeout" => 5]);
         $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
-        return array($res->getStatusCode(), json_decode($res->getBody()));
+        return $res->getStatusCode();
     } catch (\GuzzleHttp\Exception\GuzzleException $e) {
         $app_log->error($e);
         return null;
@@ -162,20 +162,10 @@ function check_target($req_uri)
 
 function check_mx($req_uri)
 {
-    return true;
-
     global $app_log;
-    $client = new \GuzzleHttp\Client(["http_errors" => false]);
-    $method = "POST";
-    $req_hdrs = [
-        "Accept" => "application/json",
-    ];
-    try {
-        $res = $client->request($method, $req_uri, ["json" => [], "headers" => $req_hdrs, "timeout" => 5]);
-        $app_log->info($method . " " . $req_uri . " " . $res->getStatusCode());
-        return array($res->getStatusCode(), json_decode($res->getBody()));
-    } catch (\GuzzleHttp\Exception\GuzzleException $e) {
-        $app_log->error($e);
-        return null;
-    }
+    $records = [];
+    $ok = getmxrr($req_uri, $records);
+    $app_log->info("DNS lookup to " . $req_uri . " result " . json_encode($records));
+    // Check for good return code and all three standard MX record values to be present and correct
+    return ($ok && in_array("rx1.sparkpostmail.com", $records) && in_array("rx2.sparkpostmail.com", $records) && in_array("rx3.sparkpostmail.com", $records));
 }

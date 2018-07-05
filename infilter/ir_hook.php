@@ -91,28 +91,34 @@ if(array_key_exists("Authorization", $avParams)) {
 }
 
 $rawBody = file_get_contents('php://input');
-$uniq = uniqid();
-// write as JSON files. Then we have all metadata and can forward the whole JSON blob easily from the batch process
-$dbg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . ".json";
-$dbg_fh = fopen($dbg_filename, "w");
-if (!$dbg_fh) {
-    http_response_code(501);
-    $app_log->info("Server problem - json write 1");
-    exit(1);
+// check for empty / null requests that simply serve as a "ping"
+if(strlen($rawBody) == 0 || $rawBody == "[]") {
+    echo "ir_hook: received ping";
+    http_response_code(200);
+} else {
+    $uniq = uniqid();
+    // write as JSON files. Then we have all metadata and can forward the whole JSON blob easily from the batch process
+    $dbg_filename = $workdir_path . DIRECTORY_SEPARATOR . "msg_" . $uniq . ".json";
+    $dbg_fh = fopen($dbg_filename, "w");
+    if (!$dbg_fh) {
+        http_response_code(501);
+        $app_log->info("Server problem - json write 1");
+        exit(1);
+    }
+    $ok = fwrite($dbg_fh, $rawBody);
+    if (!$ok) {
+        http_response_code(501);
+        $app_log->info("Server problem - json write 2");
+        exit(1);
+    }
+    $ok = fclose($dbg_fh);
+    if (!$ok) {
+        http_response_code(501);
+        $app_log->info("Server problem - json write 3");
+        exit(1);
+    }
+    $app_log->info("stored a JSON file" );
+    // committed the JSON blob to file, done for now
+    echo "ir_hook: received a webhook push";
+    http_response_code(200);
 }
-$ok = fwrite($dbg_fh, $rawBody);
-if(!$ok) {
-    http_response_code(501);
-    $app_log->info("Server problem - json write 2");
-    exit(1);
-}
-$ok = fclose($dbg_fh);
-if(!$ok) {
-    http_response_code(501);
-    $app_log->info("Server problem - json write 3");
-    exit(1);
-}
-// committed the JSON blob to file, done for now
-http_response_code(200);
-$app_log->info("stored a JSON file" );
-echo "ir_hook: received a webhook push";
