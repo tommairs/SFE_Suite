@@ -56,6 +56,8 @@ grunt
 
 mv templates/ dist/ -f
 ln -s dist/templates templates
+mv templatelist.json dist/ -f
+
 
 ## END ##
 
