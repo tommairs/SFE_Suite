@@ -19,15 +19,19 @@ td.title2 {width: 20%}
 
 /* layout for the main display table */
 th {background-color: #cccccc; color: black;}
-th.name {width: 30%}
+th.name {width: 20%}
 th.target {width: 30%}
 th.auth_token {width: 20%}
 th.match_domain {width: 20%}
+th.mx_check {width: 5%}
+th.endpoint_check {width: 5%}
 
-td.name {width: 30%}
+td.name {width: 20%}
 td.target {width: 30%}
 td.auth_token {width: 20%}
 td.match_domain {width: 20%}
+td.mx_check {width: 5%}
+td.endpoint_check {width: 5%}
 
 a { text-decoration: none; color: #37aadc;}
 

@@ -47,20 +47,20 @@ if(!empty($_GET)) {
     <fieldset>
         <legend>Inbound Relay Webhook Settings:</legend>
         <p class="entry_descr"> Name:</p>
-        <input type="text" name="name" onfocus="this.value=''" value="<?= $name ?>" size="80"><br>
+        <input type="text" name="name" value="<?= $name ?>" size="80"><br>
         <p class = "entry_hint"> A friendly label for your webhook, only used for display</p>
         <br>
         <p class="entry_descr"> Target:</p>
-        <input type="text" name="target" onfocus="this.value=''" value="<?= $target ?>" size="80"><br>
+        <input type="text" name="target" value="<?= $target ?>" size="80"><br>
         <p class = "entry_hint"> This is the URL we'll send data to. We recommend the use of https</p>
         <br>
         <p class="entry_descr"> Authentication Token (optional):</p>
-        <input type="text" name="auth_token" onfocus="this.value=''" value="<?= $auth_token ?>" size="80">
+        <input type="text" name="auth_token" value="<?= $auth_token ?>" size="80">
         <p class = "entry_hint"> Authentication token will be present in the X-MessageSystems-Webhook-Token header of POST requests to target.<br>
             Your receiver can use this value to confirm the POST is genuine.</p>
         <br>
         <p class="entry_descr"> Match Domain:</p>
-        <input type="text" name="match_domain" onfocus="this.value=''" value="<?= $match_domain ?>" size="80"><br>
+        <input type="text" name="match_domain" value="<?= $match_domain ?>" size="80"><br>
         <p class = "entry_hint"> Inbound domain associated with this webhook. You will need to set up DNS MX records for this so that any mail for the above domain will be routed to SparkPost.</p>
         <br>
         <input type="submit" value="Update webhook">
