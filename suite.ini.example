@@ -1,3 +1,18 @@
+[Editor]
+alertsenderemail = 'example@sender.example.com';
+alertsenderename = 'SFESuite Test User';
+securitycode = 'Thiscanbegobbldygookaslongasitisnotblank';
+
+[General]
+LNHome = 'suite.example.com'; Top Level URL
+TZ = 'America/Los_Angeles'; Your local timezone
+
+[DataStore]
+dbhost = 'localhost';
+dbuser = 'sfeuser';
+dbpass = 'setadbpassword';
+dbname = 'sfesuite';
+
 [SparkPost]
 sparkpost_api_key = <<YOUR API KEY HERE>>
 sparkpost_host = https://api.sparkpost.com
