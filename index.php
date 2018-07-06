@@ -1,8 +1,17 @@
 <?php
+//--------------------------------------------
+// Home page - aka:Top Menu
+//--------------------------------------------
+
+include('m_func.php');
+
+$p = getParams("suite.ini");
+$adminParams = $p["admin"];
+$TopHome = $adminParams["TopHome"];//Top Level URL
 
 // make sure we start with a secure connection.
 if ($_SERVER['SERVER_PORT'] != "443"){
-   header("Location: https://suite.trymsys.net");
+   header("Location: https://".$TopHome."");
    die();
 }
 
@@ -24,7 +33,7 @@ if ($_SERVER['SERVER_PORT'] != "443"){
 <p>
 <h2>Select a function:</h2> </br>
 <table>
-<tr><td bgcolor=#f49242><a href="/mosaico/">Template Editor</a><br></td></tr>
+<tr><td bgcolor=#f49242><a href="http://<?php echo $TopHome; ?>/mosaico/">Template Editor</a><br></td></tr>
 <tr><td bgcolor=#f4ca41><a href="/workflow/">Template Library Manager</a><br></td></tr>
 <tr><td bgcolor=#85f441><a href="/config/">Manage Configuration Data</a><br></td></tr>
 <tr><td bgcolor=#41f4d3><a href="/admin/">Relay Webhook Administration</a><br></td></tr>
