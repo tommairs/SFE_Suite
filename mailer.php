@@ -1,13 +1,60 @@
 <?php
+//--------------------------------------------
+// SparkPost Mailer
+// Accepts a post of data and transforms it to a Sparkpost transmissions call.
+//--------------------------------------------
 
-include('env.ini');
+include('m_func.php');
+
+/*
+$thisDir = dirname(__FILE__); 
+require_once $thisDir.'/vendor/autoload.php';
+require_once $thisDir.'/app_common.php';
+*/
+
+$p = getParams("suite.ini");
+$adminParams = $p["admin"];
+$spParams = $p["SparkPost"];
+$moParams = $p["Editor"];
+$spmaillog = $spParams["logfile"];
+//$app_log = new App_log($adminParams["logdir"], basename(__FILE__));
+
+$mailhost = $spParams["sparkpost_host"];
+$authkey = $spParams["sparkpost_api_key"];
+$alertsenderemail = $moParams["alertsenderemail"];
+$alertsendername = $moParams["alertsendername"];
+$securitycode = $moParams["securitycode"];
+
+//    $app_log->info("SP Mailer router started");
+
 $to = $_POST['email'];
 $password = $_POST['password'];
 $controlcode = $_POST['controlcode'];
 $subject = $_POST['subject'];
 $headers = $_POST['headers'];
-$html = $_POST['html'];
+$html = json_encode($_POST['html']);
 $subs = $_POST['subs'];
+
+$html = preg_replace('/%2F/','/',$html);
+$html = preg_replace('/%3A/',':',$html);
+$html = preg_replace('/src="\/img\/\?/','',$html);
+//$html = preg_replace('/&amp;method=resize&amp;params=[0-9%A-Znul]+"/','"',$html);
+
+file_put_contents($spmaillog, "Started mail build for item ".$controlcode."\r\n");
+
+/* for debugging only...
+file_put_contents("./postdata.txt", "Collected data\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $mailhost ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $apikey_ ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $alertsenderemail ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $alertsendername ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $to ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $password ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $securitycode ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $controlcode ."\r\n",FILE_APPEND);
+file_put_contents("./postdata.txt", $subject ."\r\n",FILE_APPEND);
+*/
+
 
 $parts = explode(">",$to);
 if($parts[0]){
@@ -24,69 +71,18 @@ else{
 }
 
 
-// FIXME - this is all for debugging
-/*
-$myfile = fopen("testfile.txt", "w");
-
-fwrite($myfile, "<html><body><p>");
-
-fwrite($myfile,  "$to<br>");
-fwrite($myfile,  "$password <br>");
-fwrite($myfile,  "$subject <br>");
-fwrite($myfile,  "$headers <br>");
-fwrite($myfile,  "$html <br>");
-
-
-fwrite($myfile,  "</p></body></html>");
-fclose($myfile);
-*/
-
 if ($password != $securitycode){
+
+//    $app_log->info("SP Mailer aborted with bad security key");
+file_put_contents($spmaillog,"Exit with security failure \r\n",FILE_APPEND);
   exit;
 }
 
+//    $app_log->info("SP Mailer writing out JSON");
+
+
 // If this is a valid request, process the transmission
-/*
-
-require 'vendor/autoload.php';
-
-use SparkPost\SparkPost;
-use GuzzleHttp\Client;
-use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
-
-$httpClient = new GuzzleAdapter(new Client());
-$sparky = new SparkPost($httpClient, ['key'=>$authkey]);
-
-$mailhost = "app.sparkpost.com";
-$alertsenderemail = "sfetest@bounces.trymsys.net";
-$alertsenderename = "SFESuite Tester";
-$securitycode = "lkasjdopqjdkqmccnqpqwdlkmqdop";
-
-
-
-$promise = $sparky->transmissions->post([
-    'content' => [
-        'from' => [
-            'name' => $alertsenderename,
-            'email' => $alertsenderemail,
-        ],
-        'subject' => $subject,
-        'html' => $html,
-        'text' => 'This transmission is HTML Only.',
-    ],
-    'substitution_data' => [$subs],
-    'recipients' => [
-        [
-            'address' => [
-                'name' => $to_pretty,
-                'email' => $to_email,
-            ],
-        ],
-    ],
-]);
-*/
-
-
+//file_put_contents("./postdata.txt", "Firing up Sparky... \r\n",FILE_APPEND);
 
 $myjson = '{
   "options": {
@@ -107,34 +103,28 @@ $myjson = '{
   ],
   "content": {
       "from": {
-      "name": "'.$alertsenderename.'",
-      "email": "'.$alertsendereemail.'"
-    },
-    "subject": "'.$subject.'",
-    "text": "This messages is HTML only",
-    "html": "'.$html.'"
+        "name": "'.$alertsendername.'",
+        "email": "'.$alertsenderemail.'"
+      },
+      "subject": "'.$subject.'",
+      "text": "This messages is HTML only",
+      "html": '.$html.'
+    }
   }
-  }
-}
 ';
 
 
-file_put_contents("testfile.txt", $myjson);
+//    $app_log->info("SP Mailer wrote JSON to textfile.txt");
 
-/*
-$today = time();
-$random = rand(10000,99999);
-$controlcode = $today.$random;
-*/
+//file_put_contents("./postdata.txt", $myjson ."\r\n",FILE_APPEND);
 
 $pfile="previews/".$controlcode.".html";
-//$pfile="previews/123456123456123456.html";
 
 $mypreview = "<html><body onload='window.opener.close();'><p>";
-$mypreview .= "FROM: <$alertsenderename> $alertsenderemail <br>";
+$mypreview .= "FROM: <$alertsendername> $alertsenderemail <br>";
 $mypreview .= "TO: <$to_pretty> $to_email <br>";
 $mypreview .= "SUBJECT: $subject  <br><br>";
-$mypreview .= "$html";
+$mypreview .= $html;
 
 file_put_contents($pfile, $mypreview);
 
@@ -142,5 +132,27 @@ file_put_contents($pfile, $mypreview);
 
 //header("location: preview.php?content=$controlcode");
 
+/******* Ship it to SparkPost **********/
+
+  $ch = curl_init();
+  curl_setopt($ch, CURLOPT_URL, "$mailhost/api/v1/transmissions");
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+  curl_setopt($ch, CURLOPT_HEADER, FALSE);
+  curl_setopt($ch, CURLOPT_POST, TRUE);
+  curl_setopt($ch, CURLOPT_POSTFIELDS, $myjson);
+  curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+    "Content-Type: application/json",
+    "Authorization: $authkey"
+  ));
+
+  $response = curl_exec($ch);
+  curl_close($ch);
+
+//var_dump($response);
+
+//  $r_text = implode("\r\n",$response);
+
+//file_put_contents("./postdata.txt", "RESPONSE = ". $r_text ."\r\n",FILE_APPEND);
+file_put_contents($spmaillog, "Mail sent to ".$to_email."  \r\n",FILE_APPEND);
 
 ?>
