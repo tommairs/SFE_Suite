@@ -4,14 +4,15 @@ THIS IS A WORK IN PROGRESS AN IS NOT EVEN CLOSE TO READY YET... Come back later.
 
 
 ## Goals
- - provide a simple responsive content editor (not a campaign engine)
- - provide responsive preview capability
+ - provide a simple responsive WYSIWYG template content editor (not a campaign engine)
+ - provide responsive preview capability (connector to external tool)
  - provide inbound AV/AS scanning of reply mail
- - provide archive store and retreival
+ - provide archive store pipe (BCC route EML files to external store)
  - provide View In Browser capability
- - provide basic workflow management 
+ - provide basic workflow management with version control
  - make it all available to master or subaccount levels
  - integrate to SparkPost APIs for full automation
+ 
 
 ## Disclaimer
 This is created as an **OPEN SOURCE** community project.  There is **NO support** and **NO guarantee for performance**.  If you like what you see, you are welcome to fork to your own project, observing the Apache license and providing credit where necessary. PRs are welcome as are any comments or suggestions. 
@@ -34,7 +35,7 @@ The intention was to build this entirely in AWS so all the instructions are gear
 4. create the application folder and cd to it ( mkdir sfesuite;cd sfesuite )
 5. init and pull this repo with git init;git pull https://github.com/tommairs/SFE_Suite
 6. execute SFEinstaller.sh as root (sudo sh SFEinstaller.sh )
-7. rename env.ini.example to env.ini and manually edit it with your own specific values.  This software will not work without it. 
+7. rename suite.ini.example to suite.ini and manually edit it with your own specific values.  This software will not work without it. 
 8. navigate a browser to your host url and start [using it](https://github.com/tommairs/SFE_Suite/blob/master/USAGE.md)
 
 ## Usage
