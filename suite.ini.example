@@ -3,10 +3,6 @@ alertsenderemail = 'example@sender.example.com';
 alertsenderename = 'SFESuite Test User';
 securitycode = 'Thiscanbegobbldygookaslongasitisnotblank';
 
-[General]
-LNHome = 'suite.example.com'; Top Level URL
-TZ = 'America/Los_Angeles'; Your local timezone
-
 [DataStore]
 dbhost = 'localhost';
 dbuser = 'sfeuser';
@@ -46,3 +42,11 @@ delivery_method = POST
 
 ; application-level logging.  For the clamd scanning logs see clamconf | grep LogFile
 logdir = app_logs
+
+[admin]
+; application-level logging
+logdir = app_logs
+TopHome = 'suite.example.com'; Top Level URL
+TZ = 'America/Los_Angeles'; Your local timezone
+
+
