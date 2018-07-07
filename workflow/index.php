@@ -17,6 +17,7 @@ if ($_SERVER['SERVER_PORT'] != "443"){
    die();
 }
 
+include('../security.php');
 
 ?>
 

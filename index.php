@@ -15,6 +15,7 @@ if ($_SERVER['SERVER_PORT'] != "443"){
    die();
 }
 
+require('security.php');
 
 ?>
 
@@ -34,20 +35,20 @@ if ($_SERVER['SERVER_PORT'] != "443"){
 <h2>Select a function:</h2> </br>
 <table class="table_menu">
     <tr class="stripy">
-        <td class="value" width=200><b>Template Editor</b></td>
-        <td class="value"><a class="button" href="http://<?php echo $TopHome; ?>/mosaico/">GO!</a></td>
+        <td class="selector"><a class="button" href="http://<?php echo $TopHome; ?>/mosaico/">GO!</a></td>
+        <td class="value"><b>Template Editor</b></td>
     </tr>
     <tr class="stripy">
+        <td class="selector"><a class="button" href="/workflow/">GO!</a></td>
         <td class="value"><b>Template Library Manager</b></td>
-        <td class="value"><a class="button" href="/workflow/">GO!</a></td>
     </tr>
     <tr class="stripy">
+        <td class="selector"><a class="button" href="/config/">GO!</a></td>
         <td class="value"><b>Manage Configuration Data</b></td>
-        <td class="value"><a class="button" href="/config/">GO!</a></td>
     </tr>
     <tr class="stripy">
+        <td class="selector"><a class="button" href="/admin/">GO!</a></td>
         <td class="value"><b>Relay Webhook Administration</b></td>
-        <td class="value"><a class="button" href="/admin/">GO!</a></td>
     </tr>
 </table>
 

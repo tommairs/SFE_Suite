@@ -2,7 +2,7 @@
 
 body { font-family: arial; font-size: initial }
 table { width: 1200px}
-table_menu { width: 600px}
+table_menu { width: 400px}
 p { width: 1200px; font-size: 14px }
 p.entry_descr { color: #55555a; font-size: 16px }
 p.entry_hint { color: #55555a; font-size: 12px }
@@ -28,6 +28,7 @@ th.match_domain {width: 20%}
 th.mx_check {width: 5%}
 th.endpoint_check {width: 5%}
 
+td.selector {width: 5%}
 td.name {width: 20%}
 td.value {width: 40%}
 td.target {width: 30%}

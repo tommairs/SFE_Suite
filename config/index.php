@@ -27,6 +27,10 @@ $p = getParams("../suite.ini");
 // Get logging set up early on, for error reporting etc
 //$app_log = new App_log($p["admin"]["logdir"], basename(__FILE__));
 
+
+include('../security.php');
+
+
 echo '<form>';
 echo '<table>';
 echo '<tr class="stripy">
