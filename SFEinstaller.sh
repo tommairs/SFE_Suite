@@ -59,9 +59,15 @@ npm install mysql -save
 npm audit fix
 grunt
 
-mv templates/ dist/ -f
-ln -s dist/templates templates
 mv templatelist.json dist/ -f
+mv templates/ dist/ -f
+mv img/ dist/ -f
+mv uploads/ dist/ -f
+mv production/ dist/ -f
+ln -s dist/templates templates
+ln -s dist/uploads/ uploads
+ln -s dist/img/ img
+ln -s dist/production/ production
 
 
 ## END ##

@@ -1,8 +1,19 @@
 <?php
+//--------------------------------------------
+// Workflow Manager
+// Allows previews to be selected for review and approval
+// Approved templates can be sent to SparkPost for use
+//--------------------------------------------
+
+include('../m_func.php');
+
+$p = getParams("../suite.ini");
+$adminParams = $p["admin"];
+$TopHome = $adminParams["TopHome"];//Top Level URL
 
 // make sure we start with a secure connection.
 if ($_SERVER['SERVER_PORT'] != "443"){
-   header("Location: https://suite.trymsys.net/workflow/");
+   header("Location: https://".$TopHome."");
    die();
 }
 
@@ -13,27 +24,35 @@ if ($_SERVER['SERVER_PORT'] != "443"){
 
  <head>
   <title>
-    Simple Front End Suite
+   Template Library Manager
   </title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="/config/style.css">
  </head>
  <body>
-  <h1>Template Library Manager</h1>
-<a href=/>Top Menu</a>
-<h2>Select a template to manage:</h2>
-<table cellpadding=5 cellspacing=1 border=1>
-<tr bgcolor=#919396>
-  <th>Template Name/Link</th>
-  <th>Thumb</th>
-  <th>Status</th>
-  <th>SPID</th>
-</tr>
-<tr>
-  <td><a href="">Template Name</a></td>
-  <td>Thumbnail</td>
-  <td>In Progress</td>
-  <td>0192830981203</td>
-</tr>
+  <h1>
+  Template Library Manager
+  </h1>
+ &nbsp; <a href="/">Go Back</a>
+
+<p>
+<h2>Select a function:</h2> </br>
+<table class="table_menu">
+    <tr class="stripy">
+        <th class="value">Template Name/Link</th>
+        <th class="name">Thumbnail</th>
+        <th class="name">Status</th>
+        <th class="name">SPID</th>
+    </tr>
+    <tr class="stripy">
+        <td class="value">Template Name/Link</td>
+        <td class="name">Thumbnail</td>
+        <td class="name">Status</td>
+        <td class="name">SPID</td>
+    </tr>
 </table>
+
+</p>
  </body>
 </html>
+
+

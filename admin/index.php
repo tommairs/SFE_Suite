@@ -5,6 +5,7 @@
 <body>
 <p>
 <h1>Settings</h1>
+ &nbsp; <a href="/">Go Back</a>
 
 <table>
     <tr>
@@ -56,7 +57,6 @@ echo '</table>';
 ?>
 
 <br>
-<a href="/">Go Back</a>
 </p>
 </body>
 </html>
