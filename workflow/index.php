@@ -7,12 +7,6 @@
 
 include('../m_func.php');
 
-//$p = getParams("../suite.ini");
-//$adminParams = $p["admin"];
-//$TopHome = $adminParams["TopHome"];//Top Level URL
-
-//include('../security.php');
-
 ?>
 
 <html>

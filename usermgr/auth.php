@@ -2,8 +2,6 @@
 // Authenticates login and stores session values
 include ('common.php');
 
-//echo $header;
-
 // get $email and $password for login
 $AccessToken = $_SESSION['AccessToken'];
 if ($AccessToken){
@@ -20,8 +18,6 @@ else {
     $_SESSION['email'] = $email;
 
   if (($email)){ 
-
-echo "Checking DataBase...<br>";
 
     // Verify the user against the auth table before continuing.
     $query = "SELECT Email,FullName,iKey,Passkey, Role FROM Users WHERE Email = '".$email."'";
@@ -46,17 +42,9 @@ echo "Checking DataBase...<br>";
 
         // validate Passkey.  NOTE: need to salt this later for more security
 
-//echo "Checking passkey...<br>";
-
-
-//echo "pass_p = ". $pass_p ;
-//echo "Passkey = ". $row['Passkey'];
-    
      //   $H_Pass = password_hash($row['Passkey'], PASSWORD_DEFAULT);
      //   if (password_verify($pass_p, $row['Passkey'])){
         if ($pass_p == $row['Passkey']){
-
-//echo "Setting Session vars <br>";
 
           $_SESSION['Email'] = $email;
           $_SESSION['FullName'] = $row['FullName'];
@@ -67,30 +55,14 @@ echo "Checking DataBase...<br>";
           $_SESSION['Lattempts']=0;
           $_SESSION['AuthKey'] = $authkey;
           $_SESSION['MailHost'] = $mailhost;
-          $_SESSION['AlertSender'] = $alertsender;
-
-/*
-echo "
-     ".     $_SESSION['Email'] ."<br>
-     ".     $_SESSION['FullName']  ."<br>
-     ".     $_SESSION['Role']  ."<br>
-     ".     $_SESSION['showall'] ."<br>
-     ".     $_SESSION['AccessToken'] ."<br> 
-     ".     $_SESSION['iKey'] ."<br>
-     ".     $_SESSION['Lattempts'] ."<br>
-     ".     $_SESSION['AuthKey']  ."<br>
-     ".     $_SESSION['MailHost']  ."<br>
-     ".     $_SESSION['AlertSender'] ."<br>
-
-";
-*/
+          $_SESSION['AlertSender'] = $alertsenderemail;
 
 
         }
         else {
           echo $htmlheader;
           $_SESSION['Lattempts'] = $_SESSION['Lattempts'] + 1;
-          echo "<center>Invalid credentials. Attempt was logged (". $_SESSION['Lattempts'] .") Click <a href=\"index.php\">HERE</a> to try again.</center>";
+          echo "<center>Invalid credentials. Attempt was logged (". $_SESSION['Lattempts'] .") Click <a href=\"./security.php\">HERE</a> to try again.</center>";
           echo "</body></html>";
           exit;
         }
@@ -98,7 +70,7 @@ echo "
       else{
           echo $htmlheader;
           $_SESSION['Lattempts'] = $_SESSION['Lattempts'] + 1;
-          echo "<center>Email is not in the system. Attempt was logged (". $_SESSION['Lattempts'] .") Click <a href=\"index.php\">HERE</a> to try again.</center>";
+          echo "<center>Email is not in the system. Attempt was logged (". $_SESSION['Lattempts'] .") Click <a href=\"./security.php\">HERE</a> to try again.</center>";
           echo "</body></html>";
           exit;
 
@@ -116,7 +88,7 @@ echo "
 //echo "Aborted jump to main page";
 //exit;
 
-       header('Location: index.php');
+       header('Location: ../index.php');
 }
 
 ?>

@@ -2,6 +2,8 @@
 
 include('common.php');
 
+$srcLocation = base64_decode($_GET['src']);
+
   if (strlen($AccessToken) < 10){
 
   echo '
@@ -38,26 +40,14 @@ include('common.php');
           <input type=submit value=CONTINUE name=login>
           ... or ...     <input type="button" name="forgot" value="I Forgot My Password" onclick="javascript:window.open(\'passreminder.php\',\'_blank\',\'scrollbars=1,width=900,height=600\');">
 
-<!--
-<a href="forgotpass.php"> I forgot my password</a>
--->
-
         </td>
       </tr>
       <tr>
         <td colspan=2>
 
             <br>
-            <br>
-            <br>
-
-<!--
-<a href="getaccess.php">HERE</a>
--->
-
         </td>
       </tr>
-
     </table>
     </center>
   </form>
@@ -65,6 +55,11 @@ include('common.php');
 
     exit;
   }
+
+//echo "SRC = ". $srcLocation;
+//exit;
+
+       header('Location: '.$srcLocation.'');
 
 ?>
 

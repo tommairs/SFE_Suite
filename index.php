@@ -3,8 +3,12 @@
 // Home page - aka:Top Menu
 //--------------------------------------------
   session_start();
-//include('common.php');
-require('security.php');
+
+  // add this to enable the user credentials system
+  if (!$_SESSION['AccessToken']){
+       $src= base64_encode('/index.php');
+       header('Location: usermgr/security.php?src='.$src.'');
+  } 
 
 ?>
 
@@ -24,7 +28,10 @@ require('security.php');
 <h2>Select a function:</h2> </br>
 <table class="table_menu">
     <tr class="stripy">
+<!--
         <td class="selector"><a class="button" href="http://<?php echo $TopHome; ?>/mosaico/">GO!</a></td>
+-->
+        <td class="selector"><a class="button" href="/mosaico/">GO!</a></td>
         <td class="value"><b>Template Editor</b></td>
     </tr>
     <tr class="stripy">
@@ -40,11 +47,11 @@ require('security.php');
         <td class="value"><b>Relay Webhook Administration</b></td>
     </tr>
     <tr class="stripy">
-        <td class="selector"><a class="button" href="users.php">GO!</a></td>
+        <td class="selector"><a class="button" href="usermgr/">GO!</a></td>
         <td class="value"><b>User Management</b></td>
     </tr>
     <tr class="stripy">
-        <td class="selector"><a class="button" href="logout.php">GO!</a></td>
+        <td class="selector"><a class="button" href="/usermgr/logout.php">GO!</a></td>
         <td class="value"><b>Logout</b></td>
     </tr>
 

@@ -1,9 +1,9 @@
 <?php
   session_start(); 
 
-  $SuiteRoot = "/var/www/html/SFE_Suite/";
+$SuiteRoot = "/var/www/html/SFE_Suite/";
 
-  require( $SuiteRoot.'m_func.php');
+  require( 'm_func.php');
   $p = getParams( $SuiteRoot.'suite.ini');
 
   $dbParams = $p['DataStore'];
@@ -13,8 +13,18 @@
   $dbname = $dbParams['dbname'];
   $TZ = $adminParams['TZ'];
 
+//var_dump($p);
+
+
   $adminParams = $p["admin"];
   $TopHome = $adminParams["TopHome"];//Top Level URL
+
+  $spParams = $p["SparkPost"];
+  $mailhost = $spParams["sparkpost_host"];
+  $authkey = $spParams["sparkpost_api_key"];
+  $alertsenderemail = $moParams["alertsenderemail"];
+  $alertsendername = $moParams["alertsendername"];
+
 
   date_default_timezone_set($TZ);
   $today = time();

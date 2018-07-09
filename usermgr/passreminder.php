@@ -1,7 +1,7 @@
 <?php
 require ("common.php");
 $AccessToken = $_SESSION['AccessToken'];
-echo $htmlheader;
+//echo $htmlheader;
 $sentmail = false;
 
 include('myfunctions.php');
