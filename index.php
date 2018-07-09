@@ -2,19 +2,8 @@
 //--------------------------------------------
 // Home page - aka:Top Menu
 //--------------------------------------------
-
-include('m_func.php');
-
-$p = getParams("suite.ini");
-$adminParams = $p["admin"];
-$TopHome = $adminParams["TopHome"];//Top Level URL
-
-// make sure we start with a secure connection.
-if ($_SERVER['SERVER_PORT'] != "443"){
-   header("Location: https://".$TopHome."");
-   die();
-}
-
+  session_start();
+//include('common.php');
 require('security.php');
 
 ?>
@@ -50,6 +39,15 @@ require('security.php');
         <td class="selector"><a class="button" href="/admin/">GO!</a></td>
         <td class="value"><b>Relay Webhook Administration</b></td>
     </tr>
+    <tr class="stripy">
+        <td class="selector"><a class="button" href="users.php">GO!</a></td>
+        <td class="value"><b>User Management</b></td>
+    </tr>
+    <tr class="stripy">
+        <td class="selector"><a class="button" href="logout.php">GO!</a></td>
+        <td class="value"><b>Logout</b></td>
+    </tr>
+
 </table>
 
 </p>

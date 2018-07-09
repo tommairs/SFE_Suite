@@ -1,6 +1,7 @@
 <?php
 
-  include('common.php');
+include('common.php');
+
   if (strlen($AccessToken) < 10){
 
   echo '

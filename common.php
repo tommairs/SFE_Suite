@@ -1,4 +1,8 @@
 <?php
+  session_start(); 
+
+  require('m_func.php');
+  $p = getParams("suite.ini");
 
   $dbParams = $p['DataStore'];
   $dbhost = $dbParams['dbhost'];
@@ -7,10 +11,22 @@
   $dbname = $dbParams['dbname'];
   $TZ = $adminParams['TZ'];
 
+  $adminParams = $p["admin"];
+  $TopHome = $adminParams["TopHome"];//Top Level URL
+
   date_default_timezone_set($TZ);
   $today = time();
 
+  if (!is_writable(session_save_path())) {
+    echo 'Session path "'.session_save_path().'" is not writable for PHP!'; 
+  }
+
   $AccessToken = $_SESSION['AccessToken'];
+  // make sure we start with a secure connection.
+  if ($_SERVER['SERVER_PORT'] != "443"){
+     header("Location: https://".$TopHome."");
+     die();
+  }
   $AccParts = explode("|",(base64_decode($AccessToken)));
   $Email =   $_SESSION['email'];
   $aAdmin = substr($AccParts[1],0,1);
@@ -62,7 +78,6 @@
     } 
      
     header('Content-Type: text/html; charset=utf-8'); 
-     
-    session_start(); 
+   
 
 

@@ -1,6 +1,8 @@
-i<?php
+<?php
 // Authenticates login and stores session values
 include ('common.php');
+
+//echo $header;
 
 // get $email and $password for login
 $AccessToken = $_SESSION['AccessToken'];
@@ -18,8 +20,11 @@ else {
     $_SESSION['email'] = $email;
 
   if (($email)){ 
+
+echo "Checking DataBase...<br>";
+
     // Verify the user against the auth table before continuing.
-    $query = "SELECT Email,FullName,Authorized,iKey,Passkey, Role FROM Users WHERE Email = '".$email."'";
+    $query = "SELECT Email,FullName,iKey,Passkey, Role FROM Users WHERE Email = '".$email."'";
     $query_params = array(
               ':CN' => '1'
         );
@@ -40,14 +45,21 @@ else {
       if ($row['Email'] != ""){
 
         // validate Passkey.  NOTE: need to salt this later for more security
+
+//echo "Checking passkey...<br>";
+
+
+//echo "pass_p = ". $pass_p ;
+//echo "Passkey = ". $row['Passkey'];
     
      //   $H_Pass = password_hash($row['Passkey'], PASSWORD_DEFAULT);
-        if (password_verify($pass_p, $row['Passkey'])){
-     //   if ($pass_p ==$row['Passkey']){
+     //   if (password_verify($pass_p, $row['Passkey'])){
+        if ($pass_p == $row['Passkey']){
+
+//echo "Setting Session vars <br>";
 
           $_SESSION['Email'] = $email;
           $_SESSION['FullName'] = $row['FullName'];
-          $_SESSION['Authorized'] = $row['Authorized'];
           $_SESSION['Role'] = $row['Role'];
           $_SESSION['showall'] = "false";
           $_SESSION['AccessToken'] = base64_encode($row['FullName']."|".$row['iKey']."|".$today);
@@ -56,6 +68,24 @@ else {
           $_SESSION['AuthKey'] = $authkey;
           $_SESSION['MailHost'] = $mailhost;
           $_SESSION['AlertSender'] = $alertsender;
+
+/*
+echo "
+     ".     $_SESSION['Email'] ."<br>
+     ".     $_SESSION['FullName']  ."<br>
+     ".     $_SESSION['Role']  ."<br>
+     ".     $_SESSION['showall'] ."<br>
+     ".     $_SESSION['AccessToken'] ."<br> 
+     ".     $_SESSION['iKey'] ."<br>
+     ".     $_SESSION['Lattempts'] ."<br>
+     ".     $_SESSION['AuthKey']  ."<br>
+     ".     $_SESSION['MailHost']  ."<br>
+     ".     $_SESSION['AlertSender'] ."<br>
+
+";
+*/
+
+
         }
         else {
           echo $htmlheader;
@@ -81,6 +111,10 @@ else {
     echo "</body></html>";
     exit;
   }
+
+
+//echo "Aborted jump to main page";
+//exit;
 
        header('Location: index.php');
 }

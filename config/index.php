@@ -20,15 +20,15 @@
 //--------------------------------------------------------------------------------------------------------------------
 
 //--- Get configuration
-//require_once '../vendor/autoload.php';
-//require_once '../app_common.php';
-include('../m_func.php');
+require_once '../vendor/autoload.php';
+require_once '../app_common.php';
+//include('../m_func.php');
 $p = getParams("../suite.ini");
 // Get logging set up early on, for error reporting etc
 //$app_log = new App_log($p["admin"]["logdir"], basename(__FILE__));
 
 
-include('../security.php');
+//include('../security.php');
 
 
 echo '<form>';

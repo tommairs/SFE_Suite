@@ -36,6 +36,23 @@ td.auth_token {width: 20%}
 td.match_domain {width: 20%}
 td.mx_check {width: 5%}
 td.endpoint_check {width: 5%}
+td.Status_InProgress {
+  width: 20%;
+  background-color: #6699ff;
+
+}
+td.Status_Approved {
+  width: 20%;
+  background-color: #00cc99;
+
+}
+td.Status_Production {
+  width: 20%;
+  background-color: #009900;
+
+}
+
+
 
 a { text-decoration: none; color: #37aadc;}
 

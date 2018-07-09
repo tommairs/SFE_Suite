@@ -7,17 +7,11 @@
 
 include('../m_func.php');
 
-$p = getParams("../suite.ini");
-$adminParams = $p["admin"];
-$TopHome = $adminParams["TopHome"];//Top Level URL
+//$p = getParams("../suite.ini");
+//$adminParams = $p["admin"];
+//$TopHome = $adminParams["TopHome"];//Top Level URL
 
-// make sure we start with a secure connection.
-if ($_SERVER['SERVER_PORT'] != "443"){
-   header("Location: https://".$TopHome."");
-   die();
-}
-
-include('../security.php');
+//include('../security.php');
 
 ?>
 
@@ -45,10 +39,10 @@ include('../security.php');
         <th class="name">SPID</th>
     </tr>
     <tr class="stripy">
-        <td class="value">Template Name/Link</td>
-        <td class="name">Thumbnail</td>
-        <td class="name">Status</td>
-        <td class="name">SPID</td>
+        <td class="value"><a href=https://suite.trymsys.net/previews/153083071914283.html target=_blank>Template: 153083071914283</a></td>
+        <td class="name"><a href=/previews/153083071914283.png target=_blank><img src=/previews/153083071914283.png width=50 height=50></a></td>
+        <td class="Status_InProgress">In Progress</td>
+        <td class="name">Not Assigned</td>
     </tr>
 </table>
 

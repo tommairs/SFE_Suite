@@ -275,6 +275,39 @@ echo "<font color=red>". $query ."</font><br>";
            die("Failed to History table: " . $ex->getMessage());
         }
 
+    echo " Creating Users Table <br />";
+
+$query = "CREATE TABLE ".$dbname.".Users (
+id INT NOT NULL AUTO_INCREMENT,
+Email VARCHAR(100) NOT NULL,
+FullName VARCHAR(100) NOT NULL,
+iKey VARCHAR(10) NOT NULL,
+PassKey VARCHAR(100) NOT NULL,
+Role VARCHAR(50) NOT NULL,
+PRIMARY KEY (id)
+) ENGINE=INNODB";
+
+
+echo "<font color=red>". $query ."</font><br>\r\n";
+
+     try
+        {
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute($query_params);
+          if ($result == 1){$result_en = "success";}
+    echo "<font color=green>". $result_en ."</font><br>\r\n";
+        }
+
+        catch(PDOException $ex)
+        {
+            // Note: On a production website, you should not output $ex->getMessage().
+            // It may provide an attacker with helpful information about your code.
+           die("Failed to History table: " . $ex->getMessage());
+        }
+
+
+
+
  
      echo "Creating User ";
      $query = "CREATE USER :US@'localhost' IDENTIFIED BY :PA";
