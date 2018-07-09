@@ -24,7 +24,7 @@ This is created as an **OPEN SOURCE** community project.  There is **NO support*
 
 
 ## Cost Factor Warning
-Some of these processes use BCC or redirects that can incur additional messaging costs with your email provider. PLEASE be aware of the per transaction costs of yuor provider.
+Some of these processes use BCC or redirects that can incur additional messaging costs with your email provider. PLEASE be aware of the per transaction costs of your provider.
 
 ## Installation
 The intention was to build this entirely in AWS so all the instructions are geared that way. If you build elsewhere, make the appropriate corrections.
