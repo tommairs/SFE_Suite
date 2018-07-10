@@ -1,3 +1,25 @@
+<?php
+//--------------------------------------------
+// Home page
+//--------------------------------------------
+  session_start();
+
+  // add this to enable the user credentials system
+  if (!$_SESSION['AccessToken']){
+       $src= base64_encode('/index.php');
+       header('Location: usermgr/security.php?src='.$src.'');
+  }
+
+  // Set page level role access
+  $MyRole = $_SESSION['Role'];
+  if ($MyRole != "Admin"){
+    echo "You are not authorized to view this page.";
+    exit;
+  }
+
+
+?>
+
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="/admin/style.css">

@@ -46,6 +46,14 @@
         <td class="selector"><a class="button" href="/admin/">GO!</a></td>
         <td class="value"><b>Relay Webhook Administration</b></td>
     </tr>
+   <tr class="stripy">
+        <td class="selector"><a class="button" href="/config/editvib.php">GO!</a></td>
+        <td class="value"><b>Manage View-In-Browser Configuration</b></td>
+    </tr>
+    <tr class="stripy">
+        <td class="selector"><a class="button" href="config/editunsub.php">GO!</a></td>
+        <td class="value"><b>Manage Unsubscribe Link Configuration</b></td>
+    </tr>
     <tr class="stripy">
         <td class="selector"><a class="button" href="usermgr/">GO!</a></td>
         <td class="value"><b>User Management</b></td>

@@ -5,9 +5,19 @@
 //--------------------------------------------
   session_start();
 
-if (!$_SESSION['AccessToken']){
-       header('Location: index.php');
-}
+// add this to enable the user credentials system
+  if (!$_SESSION['AccessToken']){
+       $src= base64_encode('/index.php');
+       header('Location: usermgr/security.php?src='.$src.'');
+  }
+
+  // Set page level role access
+  $MyRole = $_SESSION['Role'];
+  if ($MyRole != "Admin"){
+    echo "You are not authorized to view this page.";
+    exit;
+  }
+
 require ('../common.php');
 
 ?>

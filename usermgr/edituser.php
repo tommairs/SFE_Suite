@@ -18,23 +18,11 @@ echo '
 <p>
 ';
 
-
-/*
-$htmlheader;
-
-if (strlen($AccessToken) < 10){
-  include ('login.php');
-  exit;
-}
-*/
-
-
 $CurrentUser = $_POST['CN'];
 
 $Status = $_POST['Status'];
 $FullName = $_POST['FullName'];
 $Email = $_POST['Email'];
-$Authorized = $_POST['Authorized'];
 $iKey = $_POST['iKey'];
 $Role = $_POST['Role'];
 $Passkey = $_POST['Passkey'];
@@ -71,13 +59,6 @@ if (!$iKey){
   $iKey = $tempiKey;
 }
 
-
-    if (intval($iKey) > 900){
-      $Authorized = 1;
-    }
-    else{
-      $Authorized = 0;
-    }
 
 // Get user roles
 
@@ -189,12 +170,11 @@ if (!$iKey){
 
       $H_Pass = password_hash($Passkey, PASSWORD_DEFAULT);
 
-      $query = "INSERT INTO Users (FullName,Email,Authorized,Passkey,Role,iKey,Enabled) VALUES (:FN,:Em,:Au,:Pk,:Ro,:Ik,:En)";
+      $query = "INSERT INTO Users (FullName,Email,Passkey,Role,iKey) VALUES (:FN,:Em,:Pk,:Ro,:Ik)";
       $query_params = array(
               ':FN' => $FullName,
               ':Em' => $Email,
               ':En' => $enabled,
-              ':Au' => $Authorized,
               ':Pk' => $H_Pass,
               ':Ik' => $iKey,
               ':Ro' => $Role
@@ -221,13 +201,11 @@ if (!$iKey){
   }
 
   if ($Status == "current"){
-      $query = "UPDATE Users SET FullName=:FN,Email=:Em,Authorized=:Au,Role=:Ro,iKey=:Ik,Enabled=:En WHERE ID=:ID";
+      $query = "UPDATE Users SET FullName=:FN,Email=:Em,Role=:Ro,iKey=:Ik WHERE ID=:ID";
       $query_params = array(
               ':ID' => $CurrentUser,
               ':FN' => $FullName,
               ':Em' => $Email,
-              ':En' => $enabled,
-              ':Au' => $Authorized,
               ':Ik' => $iKey,
               ':Ro' => $Role
         );
@@ -277,53 +255,6 @@ if (!$iKey){
        </td></tr>';
 
 
-// This whole GRANTS section is likely unnecessary
-/*
-
-       // extract Grants from userAccessToken value
-      $AccParts = explode("|",(base64_decode($AccessToken)));
-//FIXME
-
-       $aAdmin_p = substr($AccParts[1],0,1);
-       $aLTerm_p = substr($AccParts[1],1,1);
-       $aLPerm_p = substr($AccParts[1],2,1);
-       $aLWild_p = substr($AccParts[1],3,1);
-       $aUcrud_p = substr($AccParts[1],4,1);
-       $aReport_p = substr($AccParts[1],5,1);
-       $aCust_p = substr($AccParts[1],6,1);
-
-       echo '<tr><td valign=top>Grants: </td><td>';
-       if ($aAdmin_p == "1"){
-               echo '
-                <input type=checkbox name="aAdmin" value="1" ';
-                if ($aAdmin == "1"){echo " checked ";}
-                echo '> Authorized for all ADMIN functions<br>
-                <input type=checkbox name="aLTerm" value="1" ';
-                if ($aLTerm == "1"){echo " checked ";}
-                echo '> Authorized to issue TERM licenses<br>
-                <input type=checkbox name="aLPerm" value="1" ';
-                if ($aLPerm == "1"){echo " checked ";}
-                echo '> Authorized to issue PERMANENT licenses<br>
-                <input type=checkbox name="aLWild" value="1" ';
-                if ($aLWild == "1"){echo " checked ";}
-                echo '> Authorized to issue WILDCARD licenses<br>
-                <input type=checkbox name="aUcrud" value="1" ';
-                if ($aUcrud == "1"){echo " checked ";}
-                echo '> Authorized to CRUD users<br>
-         ';
-       }
-       if (($aUcrud_p) OR ($aAdmin_p)){
-         echo '
-                <input type=checkbox name="aReport" value="1" ';
-                if ($aReport == "1"){echo " checked ";}
-                echo '> Authorized to REPORT/VIEW Only<br>
-                <input type=checkbox name="aCust" value="1" ';
-                if ($aCust == "1"){echo " checked ";}
-                echo '> Authorized as an end user (Customer)<br>
-         ';
-       }
-       echo '</td></tr>';
-*/
 
        echo '<tr><td>
             &nbsp;
@@ -386,70 +317,6 @@ if (!$iKey){
        echo '
              </select>
        </td></tr>';
-
-
-// This hole grants section can be deleted (probably...)
-/*
-        // extract Grants from iKey value
-
-        $aAdmin = substr($row['iKey'],0,1);
-        $aLTerm = substr($row['iKey'],1,1);
-        $aLPerm = substr($row['iKey'],2,1);
-        $aLWild = substr($row['iKey'],3,1);
-        $aUcrud = substr($row['iKey'],4,1);
-        $aReport = substr($row['iKey'],5,1);
-        $aCust = substr($row['iKey'],6,1);
-        $enabled = $row['Enabled'];
-
-
-   // extract Grants from userAccessToken value
-      $AccParts = explode("|",(base64_decode($AccessToken)));
-
-       $aAdmin_p = substr($AccParts[1],0,1);
-       $aLTerm_p = substr($AccParts[1],1,1);
-       $aLPerm_p = substr($AccParts[1],2,1);
-       $aLWild_p = substr($AccParts[1],3,1);
-       $aUcrud_p = substr($AccParts[1],4,1);
-       $aReport_p = substr($AccParts[1],5,1);
-       $aCust_p = substr($AccParts[1],6,1);
-
-       echo '<tr><td valign=top>Grants: </td><td>';
-       if ($aAdmin_p == "1"){
-               echo '
-                <input type=checkbox name="aAdmin" value="1" ';
-                if ($aAdmin == "1"){echo " checked ";}
-                echo '> Authorized for all ADMIN functions<br>
-                <input type=checkbox name="aLTerm" value="1" ';
-                if ($aLTerm == "1"){echo " checked ";}
-                echo '> Authorized to issue TERM licenses<br>
-                <input type=checkbox name="aLPerm" value="1" ';
-                if ($aLPerm == "1"){echo " checked ";}
-                echo '> Authorized to issue PERMANENT licenses<br>
-                <input type=checkbox name="aLWild" value="1" ';
-                if ($aLWild == "1"){echo " checked ";}
-                echo '> Authorized to issue WILDCARD licenses<br>
-                <input type=checkbox name="aUcrud" value="1" ';
-                if ($aUcrud == "1"){echo " checked ";}
-                echo '> Authorized to CRUD users<br>
-         ';
-       }
-       if (($aUcrud_p) OR ($aAdmin_p)){
-         echo '
-                <input type=checkbox name="aReport" value="1" ';
-                if ($aReport == "1"){echo " checked ";}
-                echo '> Authorized to REPORT/VIEW Only<br>
-                <input type=checkbox name="aCust" value="1" ';
-                if ($aCust == "1"){echo " checked ";}
-                echo '> Authorized as an end user (Customer)<br>
-                <input type=checkbox name="enabled" value="0" ';
-                if ($enabled == "0"){echo " checked ";}
-                echo '> Disable user<br>
-         ';
-       }
-
-        echo '
-              </td></tr>';
-*/
 
 
         echo '<tr><td>
