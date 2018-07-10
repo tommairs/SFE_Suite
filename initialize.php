@@ -99,161 +99,18 @@ echo "<font color=red>". $query ."</font><br>";
         }
 
 
-     echo "Creating ".$dbname.".Issuers Table ";
-$query = "CREATE TABLE ".$dbname.".Issuers ( 
+TemplateName, Status, SPID, Owner FROM Templates
+
+    echo " Creating Templates Table ";
+
+$query = "CREATE TABLE ".$dbname.".Templates (
 id INT NOT NULL AUTO_INCREMENT,
-FullName VARCHAR(50) NOT NULL ,
-Email VARCHAR(255) NOT NULL  ,
-Authorized INT NOT NULL DEFAULT 1  ,
-PRIMARY KEY (id)
-) ENGINE=INNODB";
-
-echo "<font color=red>". $query ."</font><br>";
-
-        try
-        {
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute($query_params);
-          if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>";
-        }
-
-        catch(PDOException $ex)
-        {
-            // Note: On a production website, you should not output $ex->getMessage().
-            // It may provide an attacker with helpful information about your code.
-           die("Failed to create Issuers table: " . $ex->getMessage());
-        }
-
-$query = "INSERT INTO " . $dbname . ".Issuers (FullName,Email,Authorized) VALUES ('".$dbuser."','".$dbuser."',1)";
-
-       try
-        {
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute($query_params);
-        }
-
-        catch(PDOException $ex)
-        {
-            // Note: On a production website, you should not output $ex->getMessage().
-            // It may provide an attacker with helpful information about your code.
-           die("Failed to create Issuers table: " . $ex->getMessage());
-        }
-
-
-
-
-
-
-     echo "Creating Customer Details Table ";
- 
-$query = "CREATE TABLE ".$dbname.".CustomerTemplate ( 
-id INT NOT NULL AUTO_INCREMENT,
-Cust_name VARCHAR(200) NOT NULL  ,
-Cust_ID INT NOT NULL UNIQUE ,
-Cust_contact_name VARCHAR(200)   ,
-Cust_contact_email VARCHAR(200)   ,
-CC_email VARCHAR(200)   ,
-Lic_alloc INT NOT NULL DEFAULT 0 ,
-Lic_used INT ,
-Product VARCHAR(50) NOT NULL  ,
-Version INT  ,
-Storage INT ,
-Function VARCHAR(10) NOT NULL  ,
-Modules_AD VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_ME VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_RT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CSAPI VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_BEIK VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_SB VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CM VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_VR VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_SMS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_MMS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Push VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_XMPP VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_M4Gen VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_MC VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Scope VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_AT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_KAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_PAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_TAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_IA VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Eleven VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_VAS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_FS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Type VARCHAR(4) NOT NULL DEFAULT \"TEMP\" ,
-Category VARCHAR(12)   ,
-Term_Exp INT   ,
-Paid INT DEFAULT 1  ,
-Perm_Auth VARCHAR(25)   ,
-SE_Name VARCHAR(200)   ,
-AE_Name VARCHAR(200)   ,
-Notes VARCHAR(1024)   ,
-PRIMARY KEY (id)
-) ENGINE=INNODB";
-
-echo "<font color=red>". $query ."</font><br>";
-
-
-        try
-        {
-            $stmt = $db->prepare($query);
-            $result = $stmt->execute($query_params);
-          if ($result == 1){$result_en = "success";}
-    echo "<font color=green>". $result_en ."</font><br>";
-        }
-
-        catch(PDOException $ex)
-        {
-            // Note: On a production website, you should not output $ex->getMessage().
-            // It may provide an attacker with helpful information about your code.
-           die("Failed to create Customer Detail table: " . $ex->getMessage());
-        }
-
-
-    echo " Creating History Table ";
-
-$query = "CREATE TABLE ".$dbname.".History ( 
-id INT NOT NULL AUTO_INCREMENT,
-MAC VARCHAR(20) NOT NULL UNIQUE,
-Expiration INT  ,
-Modules_AD VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_ME VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_RT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CSAPI VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_BEIK VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_SB VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CM VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_CT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_VR VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_SMS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_MMS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Push VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_M4Gen VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_MC VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Scope VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_AT VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_KAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_PAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_TAV VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_IA VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_Eleven VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_VAS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
-Modules_FS VARCHAR(2) NOT NULL DEFAULT \"N\" ,
+TemplateName VARCHAR(50) NOT NULL,
 Last_Edit INT ,
-Last_Editor VARCHAR(50) ,
-Issue_Date INT NOT NULL ,
-Issuer VARCHAR(50) NOT NULL ,
-Notes VARCHAR(255)  ,
-Version INT ,
-Product varchar(50),
-Cust_ID int ,
-Storage int ,
-Modules_XMPP varchar(2),
-Cust_name varchar(200) ,
+Owner VARCHAR(50) ,
+Status VARCHAR(50),
+HTML MEDIUMTEXT,
+SPID VARCHAR(50) ,
 PRIMARY KEY (id)
 ) ENGINE=INNODB";
 
@@ -274,6 +131,42 @@ echo "<font color=red>". $query ."</font><br>";
             // It may provide an attacker with helpful information about your code.
            die("Failed to History table: " . $ex->getMessage());
         }
+
+
+
+
+    echo " Creating TemplateHistory Table ";
+
+$query = "CREATE TABLE ".$dbname.".TemplateHistory ( 
+id INT NOT NULL AUTO_INCREMENT,
+tid INT NOT NULL,
+Last_Edit INT ,
+Last_Editor VARCHAR(50) ,
+Last_Action Varchar(50),
+Last_HTML MEDIUMTEXT,
+Version INT ,
+PRIMARY KEY (id)
+) ENGINE=INNODB";
+
+
+echo "<font color=red>". $query ."</font><br>";
+
+        try
+        {
+            $stmt = $db->prepare($query);
+            $result = $stmt->execute($query_params);
+          if ($result == 1){$result_en = "success";}
+    echo "<font color=green>". $result_en ."</font><br>";
+        }
+
+        catch(PDOException $ex)
+        {
+            // Note: On a production website, you should not output $ex->getMessage().
+            // It may provide an attacker with helpful information about your code.
+           die("Failed to History table: " . $ex->getMessage());
+        }
+
+
 
     echo " Creating Users Table <br />";
 
