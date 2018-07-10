@@ -1,12 +1,12 @@
 <?php
 //--------------------------------------------
-// Home page
+// Unsub Config editor
 //--------------------------------------------
   session_start();
 
   // add this to enable the user credentials system
   if (!$_SESSION['AccessToken']){
-       $src= base64_encode('/index.php');
+       $src= base64_encode('/unsub/editunsub.php');
        header('Location: usermgr/security.php?src='.$src.'');
   }
 
@@ -17,7 +17,6 @@
     exit;
   }
 
-
 ?>
 
 
@@ -27,7 +26,7 @@
 </head>
 <body>
 <p>
-<h1>Settings</h1>
+<h1>Unsubscribe Link Settings</h1>
  &nbsp; <a href="/">Go Back</a>
 <table>
     <tr>
@@ -59,16 +58,18 @@ echo '<tr class="stripy">
     </tr>';
 
 foreach($p as $i => $k) {
-    echo '<tr class="stripy">
-    <td class="name"><b>' .$i . '</b></td>
-    <td class="value">&nbsp; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - &nbsp;</td>
-    </tr>';
-    foreach($k as $l => $m) {
+    if ($i == "unsub"){
       echo '<tr class="stripy">
-      <td class="name">' .$l . '</td>
-      <td class="value"><input type=text value="'. $m .'" size=50 name='. $i . '.' . $l .'></td>
+      <td class="name"><b>' .$i . '</b></td>
+      <td class="value">&nbsp; - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - &nbsp;</td>
       </tr>';
-   }
+      foreach($k as $l => $m) {
+        echo '<tr class="stripy">
+        <td class="name">' .$l . '</td>
+        <td class="value"><input type=text value="'. $m .'" size=50 name='. $i . '.' . $l .'></td>
+        </tr>';
+      }
+    }
 }
 
 echo '</table>';
