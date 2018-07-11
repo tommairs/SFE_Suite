@@ -1,20 +1,23 @@
-#!/usr/bin/env bash
-# Installer for "infilter" tool SMT 2018-06-28
-#
-# You are STRONGLY RECOMMENDED to copy/paste this one line at a time, to check output results, rather than running at once
-#
-# This installer may need to be run as root, because of the way the overall project folder is installed as root
+# "infilter" tool installation
 
-# first, get PHP mailparse extension
-# requires pear - see
-#   https://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/
-#   https://ma.ttias.be/installing-the-pecl-pear-mailparse-module-for-php-on-centos/
 
+Please copy/paste this file one line at a time, to check output results, rather than trying to script it all.
+
+Depending on the way your Linux server is set up, some parts of this installer may need to be run as root.
+
+
+get PHP mailparse extension
+ requires pear - see
+   https://jason.pureconcepts.net/2012/10/install-pear-pecl-mac-os-x/
+   https://ma.ttias.be/installing-the-pecl-pear-mailparse-module-for-php-on-centos/
+
+```
 curl -O http://pear.php.net/go-pear.phar
 php -d detect_unicode=0 go-pear.phar
 /home/centos/pear/bin/pear version
 yum install re2c
 /home/centos/pear/bin/pear install pecl/mailparse
+```
 
 # note workaround to get mailparse to load late - (by naming the ini file z- ..)
 # see https://stackoverflow.com/questions/21127052/php-mailparse-so-error-undefined-symbol-mbfl-convert-filter-flush
@@ -94,3 +97,11 @@ echo "*** Now set up your specific config items in infilter/suite.ini, such as S
 
 # using swaks to send emails to the scanner with attachments - example
 #  swaks --from steve.tuck@sparkpost.com --to test@relay.thetucks.com --attach ~/quarantine/eicar.txt
+
+## Inbound domain(s) configuration
+
+Your inbound domain(s) should be set up according to [this article](https://www.sparkpost.com/docs/tech-resources/inbound-email-relay-webhook/).
+
+The suite provides an easy web UI tool to set up both inbound_domains and relay_webhooks (see suite Admin page).
+
+The tool displays whether the MX records check out properly and whether your endpoints are receptive to http(s) POST attempts.

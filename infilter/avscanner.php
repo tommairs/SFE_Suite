@@ -191,6 +191,21 @@ foreach($file_list as $jfile) {
                 $sub_data = ["max_attachment_size" => strval($max_attachment_size/1024/1024) . " megabytes"];
                 sparkpost_template_send($sparkpost_host, $sparkpost_api_key, $sp_reject_template, $basicFrom, $sub_data);
             }
+            // Build and send a "negative" ack of inbound messages onwards, carrying just plaintext from the message
+            $nack = new stdClass();
+            $nack->rcpt_to = $msg->rcpt_to;
+            $nack->msg_from = $msg->msg_from;
+            $nack->friendly_from = $msg->friendly_from;
+            $nack->content->subject = $msg->content->subject;
+            $nack->rejection_reason = array();
+            // Append reasons that apply
+            if($attachTooBig) {
+                $nack->rejection_reason[] = "One or more attachments exceeded max size of " . $max_attachment_size . " bytes";
+            }
+            if(isset($verdictStr)) {
+                $nack->rejection_reason[] = "Virus scan reported " . $verdictStr;
+            }
+            deliver_json($delivery_method, $delivery_url, $nack);
         }
         // Finished with this .eml file - move it to done dir
         // Production code could delete the file, rather than move it
