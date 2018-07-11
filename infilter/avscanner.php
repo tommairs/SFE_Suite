@@ -164,12 +164,12 @@ foreach($file_list as $jfile) {
                 }
             }
         }
-        $fileVerdictOK = false;                                             // always assume bad before checking, for safety
+        $fileVerdictOK = false;                                         // always assume bad before checking, for safety
         if(!$attachTooBig) {
             // clamd scanner will unpack the .eml file itself and scan the attachments etc. See clamdoc.pdf, "MULTISCAN".
-            $results = $my_clam->multiscan($msg_filename);
+            $results = trim($my_clam->multiscan($msg_filename));        // trim off whitespace incl. \n
             $app_log->info($results);
-            $splitRes = explode(":", trim($results));              // filename will be in [0] and verdict in [1]
+            $splitRes = explode(":", $results);                // filename will be in [0] and verdict in [1]
             if (sizeof($splitRes) != 2) {
                 $app_log->error("unexpected return value from clamd " . $results);
                 exit(1);
