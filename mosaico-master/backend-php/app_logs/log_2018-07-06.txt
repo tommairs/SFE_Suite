@@ -1,0 +1,6 @@
+2018-07-06 17:49:04.448580|mailer.php|INFO|SP Mailer router started
+2018-07-06 17:49:04.448843|mailer.php|INFO|SP Mailer writing out JSON
+2018-07-06 17:49:04.448929|mailer.php|INFO|SP Mailer wrote JSON to textfile.txt
+2018-07-06 17:54:06.856105|mailer.php|INFO|SP Mailer router started
+2018-07-06 17:54:06.856367|mailer.php|INFO|SP Mailer writing out JSON
+2018-07-06 17:54:06.856457|mailer.php|INFO|SP Mailer wrote JSON to textfile.txt

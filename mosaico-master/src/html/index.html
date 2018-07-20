@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="rs/mosaico-material.min.css?v=__VERSION__" />
 
     <script src="rs/mosaico-libs.min.js?v=__VERSION__"></script>
+    <script type="text/javascript" src="templatelist.json"></script>
     <script>
       var initialEdits = [];
       if (localStorage.getItem('edits')) {
@@ -35,13 +36,7 @@
       var viewModel = {
         showSaved: ko.observable(false),
         edits: ko.observableArray(initialEdits),
-        templates: [{
-          name: 'versafix-1', desc: 'The versatile template'
-        },{
-          name: 'tedc15', desc: 'The TEDC15 template'
-        },{
-          name: 'tutorial', desc: 'The Tutorial'
-        }]
+        templates: templateList
       };
 
       viewModel.edits.subscribe(function(newEdits) {

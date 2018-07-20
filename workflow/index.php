@@ -29,7 +29,7 @@
   <title>
    Template Library Manager
   </title>
-  <link rel="stylesheet" type="text/css" href="/config/style.css">
+  <link rel="stylesheet" type="text/css" href="style.css">
  </head>
  <body>
   <h1>
@@ -57,7 +57,7 @@
 // Select templates from DB
 // list in the table
 
-  $query = "SELECT Owner, Last_Edit, TemplateName, Status, SPID FROM Templates";
+  $query = "SELECT id, Owner, Last_Edit, TemplateName, Status, SPID FROM Templates";
    $query_params = array(
               ':CN' => '1'
         );
@@ -81,29 +81,34 @@
 //-----------------------------------------
 // For each record...
 //-----------------------------------------
-  echo '<form> 
+  echo '<form method=POST action=switch.php> 
         <tr class="stripy">
-        <td class="value"><a href=https://suite.trymsys.net/previews/'.  $row['TemplateName'] .'.html target=_blank>Template: '.  $row['TemplateName'] .'</a></td>
- <!--
-       <td class="name"><a href=/previews/153083071914283.png target=_blank><img src=/previews/153083071914283.png width=50 height=50></a></td>
--->
+        <td class="value">
+          <a href=https://suite.trymsys.net/previews/'.  $row['TemplateName'] .'.html target=_blank>Template: '.  $row['TemplateName'] .'</a>
+          <input type="hidden" name="id" value='. $row['id'] .'
+       </td>
         <td class="name">'. $row['Owner'] .'</td>
         <td class="date">'. date("d-m-Y",$row['Last_Edit']) .'</td>
         <td class="Status_'.  str_replace(' ', '', $row['Status']) .'">'.  $row['Status'] .'</td>
         <td class="spid">'. $row['SPID'] .'</td>
         <td class="name">
-          <select>
+          <select name=action onchange="this.form.submit()">
             <option value="--">Select an action</option>
+  ';
+  if ($row['Status'] != "Published"){
+    echo '
             <option value="edit">Edit</option>
             <option value="review">Request Review</option>
             <option value="getapproval">Request Approval</option>
             <option value="versions">Show History</option>
-  ';
+    ';
+  }
 
   if (($MyRole == "Admin") OR ($MyRole == "Approver")){
-    echo '
-            <option value="publish">Approve for Publication</option>
-            <option value="revoke">Revoke Publication</option>
+      if ($row['Status'] != "Published"){
+        echo '  <option value="publish">Approve for Publication</option> ';
+      }
+    echo '      <option value="revoke">Revoke Publication</option>
             <option value="delete">Delete</option>
     ';
   }

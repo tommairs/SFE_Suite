@@ -34,5 +34,8 @@ $config = [
 	
 	/* width and height of generated thumbnails */
 	THUMBNAIL_WIDTH => 90,
-	THUMBNAIL_HEIGHT => 90
+	THUMBNAIL_HEIGHT => 90,
+
+        /* Mailer security code - MUST match the code in /suite.ini for SparkPost sending to work */
+        SPSECURITY => "lkasjdopqjdkqmccnqpqwdlkmqdop"
 ];

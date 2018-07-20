@@ -72,7 +72,7 @@ var lsCommandPluginFactory = function(md, emailProcessorBackend) {
           });
           post.success(function() {
             console.log("success", arguments);
-            viewModel.notifier.success(viewModel.t("Test email sent..."));
+            viewModel.notifier.success(viewModel.t("Test email sent to mailer..."));
           });
           post.always(function() {
             testCmd.enabled(true);

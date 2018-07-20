@@ -1,0 +1,28 @@
+{
+  "options": {
+    "open_tracking": true,
+    "click_tracking": true
+  },
+  "campaign_id": "SFE Test Messages",
+  "metadata": {},
+  "substitution_data": {},
+  "recipients": [
+    {
+      "address": {
+        "email": "",
+        "name": " "
+      },
+      "substitution_data": {}
+    }
+  ],
+  "content": {
+      "from": {
+      "name": "",
+      "email": ""
+    },
+    "subject": "",
+    "text": "This messages is HTML only",
+    "html": ""
+  }
+  }
+}

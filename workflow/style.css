@@ -1,0 +1,87 @@
+/* basic style sheet for display of data tables, buttons etc */
+
+body { font-family: arial; font-size: initial }
+table { width: 1200px}
+table_menu { width: 400px}
+p { width: 1200px; font-size: 14px }
+p.entry_descr { color: #55555a; font-size: 16px }
+p.entry_hint { color: #55555a; font-size: 12px }
+
+
+h1 { font-family: arial; font-size: 24px }
+h2 { font-family: arial; font-size: 18px }
+
+tr.stripy:nth-child(odd) { background-color: #f2f2f2; }
+
+th, td { text-align: left; padding: 8px; }
+
+td.title {width: 80%}
+td.title2 {width: 20%}
+
+/* layout for the main display table */
+th {background-color: #cccccc; color: black;}
+th.name {width: 20%}
+th.value {width: 40%}
+th.target {width: 30%}
+th.auth_token {width: 20%}
+th.match_domain {width: 20%}
+th.mx_check {width: 5%}
+th.endpoint_check {width: 5%}
+
+td.selector {width: 5%}
+td.name {width: 20%}
+td.value {width: 40%}
+td.target {width: 30%}
+td.auth_token {width: 20%}
+td.match_domain {width: 20%}
+td.mx_check {width: 5%}
+td.endpoint_check {width: 5%}
+td.Status_InProgress {
+  width: 20%;
+  background-color: #d9e0af;
+}
+td.Status_Published {
+  width: 20%;
+  background-color: #a39913;
+}
+td.Status_Production {
+  width: 20%;
+  background-color: #009900;
+}
+td.Status_ReviewRequest {
+  width: 20%;
+  background-color: #fff247;
+}
+td.Status_WaitingForApproval {
+  width: 20%;
+  background-color: #7ddb7d;
+}
+td.Status_Revoked {
+  width: 20%;
+  background-color: #c6476b;
+}
+td.Status_Deleted {
+  width: 20%;
+  background-color: #e53063;
+}
+
+
+
+a { text-decoration: none; color: #37aadc;}
+
+a.button { text-decoration: none; color: white; background-color: #fa6423; border: 4px; padding: 8px; }
+
+input { font-size: 16px }
+
+input[type=text] {
+    padding:5px;
+    border:2px solid #ccc;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+input[type=text]:focus {
+    border-color:#333;
+}
+
+input[type=submit] { color: white; background-color: #fa6423; border:4px; padding: 8px; cursor:pointer; }

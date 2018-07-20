@@ -15,6 +15,7 @@ const THUMBNAILS_URL = 8;
 const THUMBNAILS_DIR = 9;
 const THUMBNAIL_WIDTH = 10;
 const THUMBNAIL_HEIGHT = 11;
+const SPSECURITY = 12;
 
 require "config.php";
 
@@ -352,10 +353,15 @@ function ProcessDlRequest()
 		}
 
 		case "email":
-		{
+ 		{
+                     // file_put_contents("./postdata.txt", "Started FIle\r\n");
+                        $today = time();
+                        $random = rand(10000,99999);
+                        $controlcode = $today.$random;
+                        $passwd = $config[ SPSECURITY ];
+
 			$to = $_POST[ "rcpt" ];
 			$subject = $_POST[ "subject" ];
-                        $passwd = "lkasjdopqjdkqmccnqpqwdlkmqdop";
                         $subs = "";
 
 			$headers = array();
@@ -367,11 +373,14 @@ function ProcessDlRequest()
 
 			$headers = implode( "\r\n", $headers );
 
+
+
+
+
                         // Create POST Payload
-  $postdata = array('email' => $to,'password' => $passwd,'subject' => $subject,'headers' => $headers,'html' => $html,'subs' => $subs);
-  
+  $postdata = array('email' => $to,'password' => $passwd,'subject' => $subject,'headers' => $headers,'html' => $html,'subs' => $subs,'controlcode' => $controlcode);  
   $ch = curl_init();
-  curl_setopt($ch, CURLOPT_URL, "http://suite.trymsys.net/mailer.php");
+  curl_setopt($ch, CURLOPT_URL, "https://suite.trymsys.net/mailer.php");
   curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
   curl_setopt($ch, CURLOPT_HEADER, TRUE);
   curl_setopt($ch, CURLOPT_POST, TRUE);
@@ -382,16 +391,9 @@ function ProcessDlRequest()
   curl_close($ch);
 
 
- 
-
-                /*
-
-			if ( mail( $to, $subject, $html, $headers ) === FALSE )
-			{
-				$http_return_code = 500;
-				return;
-			}
-                */
+//$postdata_s = implode("\r\n",$postdata);
+//file_put_contents("./postdata.txt", $postdata_s);
+//header("location: /preview.php?content=$controlcode");
 
 			break;
 		}
